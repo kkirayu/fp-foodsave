@@ -5,6 +5,7 @@ import Layout from './Layout';
 import HomePage from './Pages/HomePage';
 import CariMakanan from './Pages/CariMakanan'; 
 import BrowseFoodPage from './sections/Food';
+import CommunityNewsPage from './Pages/ComunityNewsPages';
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+           <Route path="komunitas" element={<CommunityNewsPage />} /> {/* Rute baru untuk halaman komunitas */}
         </Route>
         <Route path="/makanan" element={<Layout />}>
           <Route index element={<CariMakanan />} />
