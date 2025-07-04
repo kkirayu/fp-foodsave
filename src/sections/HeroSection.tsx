@@ -14,7 +14,7 @@ const HeroSection: React.FC = () => {
       <div className="mt-10 flex justify-center space-x-6">
         <a
           className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-md shadow-md transition"
-          href="#browse-food"
+          href="makanan"
         >
           Cari Makanan Sekarang
         </a>

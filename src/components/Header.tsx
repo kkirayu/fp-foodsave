@@ -15,24 +15,24 @@ const Header: React.FC = () => {
           className="text-2xl font-bold text-green-600 flex items-center space-x-2"
           href="/"
         >
-          <img
+          {/* <img
             alt="Logo FoodSaver berupa ikon piring dengan daun hijau di atasnya"
             className="w-10 h-10"
             height="40"
-            src="https://storage.googleapis.com/a1aa/image/4cf37f0a-e3e0-4713-5853-69143f1473ed.jpg"
+            src="../assets/logo.png"
             width="40"
-          />
+          /> */}
           <span> FoodSaver </span>
         </a>
         <nav className="hidden md:flex space-x-8 font-semibold text-gray-700">
-          <a className="hover:text-green-600 transition" href="#how-it-works">
+          <a className="hover:text-green-600 transition" href="cara-kerja">
             Cara Kerja
           </a>
           <Link className="hover:text-green-600 transition" to="/makanan">
             Cari Makanan
           </Link>
-          <a className="hover:text-green-600 transition" href="admin.html"> 
-            Penjual
+          <a className="hover:text-green-600 transition" href="profil"> 
+            Profile
           </a>
           <a className="hover:text-green-600 transition" href="/komunitas">
             Komunitas
@@ -60,7 +60,7 @@ const Header: React.FC = () => {
       >
         <a
           className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
-          href="#how-it-works"
+          href="cara-kerja"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           Cara Kerja
@@ -74,14 +74,14 @@ const Header: React.FC = () => {
         </Link>
         <a
           className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
-          href="#seller-dashboard"
+          href="profil"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          Penjual
+          Profile
         </a>
         <a
           className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
-          href="#community"
+          href="/komunitas"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           Komunitas

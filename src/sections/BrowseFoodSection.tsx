@@ -108,7 +108,6 @@ const BrowseFoodSection: React.FC = () => {
         Cari Makanan Sisa di Sekitarmu
       </h2>
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:space-x-8">
-        {/* Filters */}
         <aside className="mb-8 md:mb-0 md:w-1/4 bg-white rounded-lg shadow p-6">
           <h3 className="text-xl font-semibold text-green-800 mb-4">
             Filter Pencarian
@@ -212,7 +211,6 @@ const BrowseFoodSection: React.FC = () => {
         </section>
       </div>
 
-      {/* Order Modal */}
       {selectedFoodItem && (
         <Modal
           isOpen={isModalOpen}
