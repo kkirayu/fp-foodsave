@@ -1,11 +1,11 @@
-// src/App.tsx (Struktur yang Benar)
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './Layout';
-import HomePage from './Pages/HomePage';
-import CariMakanan from './Pages/CariMakanan'; 
-import BrowseFoodPage from './sections/Food';
-import CommunityNewsPage from './Pages/ComunityNewsPages';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./Layout";
+import HomePage from "./Pages/HomePage";
+import CariMakanan from "./Pages/CariMakanan";
+import BrowseFoodPage from "./sections/Food";
+import CommunityNewsPage from "./Pages/ComunityNewsPages";
+import ArticleDetailPage from "./Pages/ArticleDetailPage";
 
 const App: React.FC = () => {
   return (
@@ -13,7 +13,8 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-           <Route path="komunitas" element={<CommunityNewsPage />} /> {/* Rute baru untuk halaman komunitas */}
+          <Route path="komunitas" element={<CommunityNewsPage />} />
+          <Route path="komunitas/:articleId" element={<ArticleDetailPage />} />
         </Route>
         <Route path="/makanan" element={<Layout />}>
           <Route index element={<CariMakanan />} />
