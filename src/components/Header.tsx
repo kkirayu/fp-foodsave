@@ -13,7 +13,7 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <a
           className="text-2xl font-bold text-green-600 flex items-center space-x-2"
-          href="#"
+          href="/"
         >
           <img
             alt="Logo FoodSaver berupa ikon piring dengan daun hijau di atasnya"
@@ -34,7 +34,7 @@ const Header: React.FC = () => {
           <a className="hover:text-green-600 transition" href="admin.html"> 
             Penjual
           </a>
-          <a className="hover:text-green-600 transition" href="#community">
+          <a className="hover:text-green-600 transition" href="/komunitas">
             Komunitas
           </a>
           <a className="hover:text-green-600 transition" href="#blog">

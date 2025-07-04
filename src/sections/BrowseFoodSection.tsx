@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { FoodItem } from '../types/FoodItem';
-
+import Modal from '../components/Modal';
+import OrderForm from '../components/OrderForm';
 
 const foodItems: FoodItem[] = [
   {
+    id: 'food1',
     imageSrc: 'https://storage.googleapis.com/a1aa/image/3413175d-3cb8-46d5-e81e-f170bcc827a9.jpg',
     imageAlt: 'Nasi Goreng Spesial dengan telur dan sayuran segar di piring putih',
     title: 'Nasi Goreng Spesial',
@@ -12,6 +15,7 @@ const foodItems: FoodItem[] = [
     pickupTime: '20.00 - 21.00',
   },
   {
+    id: 'food2',
     imageSrc: 'https://storage.googleapis.com/a1aa/image/9b12dc9c-d92e-416a-9ffa-80e5ae19c0c6.jpg',
     imageAlt: 'Roti tawar gurih dengan selai stroberi merah segar di atas piring kayu',
     title: 'Roti Tawar dengan Selai Stroberi',
@@ -20,6 +24,7 @@ const foodItems: FoodItem[] = [
     pickupTime: '19.30 - 20.30',
   },
   {
+    id: 'food3',
     imageSrc: 'https://storage.googleapis.com/a1aa/image/7bae9ff7-fdbe-4e96-6418-c79d7cedd1bf.jpg',
     imageAlt: 'Segelas es teh manis dengan daun mint segar dan es batu di gelas kaca bening',
     title: 'Es Teh Manis Mint',
@@ -28,6 +33,7 @@ const foodItems: FoodItem[] = [
     pickupTime: '18.00 - 19.00',
   },
   {
+    id: 'food4',
     imageSrc: 'https://storage.googleapis.com/a1aa/image/72b4aef6-c5e2-4ceb-3918-4c71a2c4491e.jpg',
     imageAlt: 'Kue lapis pelangi berwarna-warni dengan tekstur lembut di atas piring putih',
     title: 'Kue Lapis Pelangi',
@@ -36,6 +42,7 @@ const foodItems: FoodItem[] = [
     pickupTime: '20.00 - 21.00',
   },
   {
+    id: 'food5',
     imageSrc: 'https://storage.googleapis.com/a1aa/image/7e864d6a-a229-4304-59ec-32469920139e.jpg',
     imageAlt: 'Sepiring ayam goreng kremes dengan sambal pedas dan lalapan segar di piring putih',
     title: 'Ayam Goreng Kremes',
@@ -44,6 +51,7 @@ const foodItems: FoodItem[] = [
     pickupTime: '19.00 - 20.00',
   },
   {
+    id: 'food6',
     imageSrc: 'https://storage.googleapis.com/a1aa/image/ab2f1cc9-64a5-43d6-0a62-66989e507257.jpg',
     imageAlt: 'Mangkok salad buah segar berisi potongan melon, semangka, anggur, dan yogurt putih',
     title: 'Salad Buah Segar',
@@ -53,16 +61,49 @@ const foodItems: FoodItem[] = [
   },
 ];
 
+
 const BrowseFoodSection: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedFoodItem, setSelectedFoodItem] = useState<FoodItem | null>(null);
+  const navigate = useNavigate(); // Inisialisasi useNavigate
+
+  const handleSubmitFilters = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, you would handle form submission here, e.g.,
-    // fetching data based on filters.
     console.log('Search filters submitted!');
+    // Filter logic will be added here in the future
+  };
+
+  const handleOrderClick = (item: FoodItem) => {
+    setSelectedFoodItem(item);
+    setIsModalOpen(true);
+  };
+
+  const handlePlaceOrder = (item: FoodItem, quantity: number, notes: string) => {
+    console.log('Order Placed:', { item, quantity, notes });
+    setIsModalOpen(false);
+    setSelectedFoodItem(null);
+
+    // Redirect to payment page with order details
+    navigate('/pembayaran', {
+      state: {
+        order: {
+          item,
+          quantity,
+          notes,
+          totalPrice: parseFloat(item.price.replace('Rp ', '').replace('.', '')) * quantity,
+          orderId: `ORD-${Date.now()}`, // Simple unique ID for order
+        },
+      },
+    });
+  };
+
+  const handleCancelOrder = () => {
+    setIsModalOpen(false);
+    setSelectedFoodItem(null);
   };
 
   return (
-    <section className="py-16 px-6 md:px-12 bg-green-50" >
+    <section className="py-16 px-6 md:px-12 bg-green-50">
       <h2 className="text-3xl font-bold text-center text-green-700 mb-12">
         Cari Makanan Sisa di Sekitarmu
       </h2>
@@ -72,7 +113,7 @@ const BrowseFoodSection: React.FC = () => {
           <h3 className="text-xl font-semibold text-green-800 mb-4">
             Filter Pencarian
           </h3>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmitFilters}>
             <div>
               <label
                 className="block text-gray-700 font-medium mb-1"
@@ -133,9 +174,9 @@ const BrowseFoodSection: React.FC = () => {
         </aside>
         {/* Food Listings */}
         <section className="md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {foodItems.map((item, index) => (
+          {foodItems.map((item) => (
             <article
-              key={index}
+              key={item.id}
               className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
             >
               <img
@@ -159,7 +200,10 @@ const BrowseFoodSection: React.FC = () => {
                     Ambil: {item.pickupTime}
                   </span>
                 </div>
-                <button className="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition">
+                <button
+                  className="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition"
+                  onClick={() => handleOrderClick(item)}
+                >
                   Pesan Sekarang
                 </button>
               </div>
@@ -167,6 +211,21 @@ const BrowseFoodSection: React.FC = () => {
           ))}
         </section>
       </div>
+
+      {/* Order Modal */}
+      {selectedFoodItem && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={handleCancelOrder}
+          title={`Pesan ${selectedFoodItem.title}`}
+        >
+          <OrderForm
+            foodItem={selectedFoodItem}
+            onPlaceOrder={handlePlaceOrder}
+            onCancel={handleCancelOrder}
+          />
+        </Modal>
+      )}
     </section>
   );
 };

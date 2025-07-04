@@ -6,6 +6,8 @@ import CariMakanan from "./Pages/CariMakanan";
 import BrowseFoodPage from "./sections/Food";
 import CommunityNewsPage from "./Pages/ComunityNewsPages";
 import ArticleDetailPage from "./Pages/ArticleDetailPage";
+import PaymentPage from "./Pages/PaymentPage";
+import InvoicePage from "./Pages/InvoicePage";
 
 const App: React.FC = () => {
   return (
@@ -19,6 +21,12 @@ const App: React.FC = () => {
         <Route path="/makanan" element={<Layout />}>
           <Route index element={<CariMakanan />} />
           <Route path="browse" element={<BrowseFoodPage />} />
+        </Route>
+         <Route path="/pembayaran" element={<Layout />}>
+          <Route index element={<PaymentPage />} />
+        </Route>
+        <Route path="/invoice" element={<Layout />}>
+          <Route index element={<InvoicePage />} />
         </Route>
       </Routes>
     </Router>
