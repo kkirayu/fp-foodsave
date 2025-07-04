@@ -20,7 +20,7 @@ const HeroSection: React.FC = () => {
         </a>
         <a
           className="bg-white border-2 border-green-600 text-green-600 font-semibold px-6 py-3 rounded-md shadow-md hover:bg-green-600 hover:text-white transition"
-          href="#seller-dashboard"
+          href="regis-penjual"
         >
           Daftar Sebagai Penjual
         </a>

@@ -37,10 +37,6 @@ const Header: React.FC = () => {
           <a className="hover:text-green-600 transition" href="/komunitas">
             Komunitas
           </a>
-          <a className="hover:text-green-600 transition" href="#blog">
-            {' '}
-            Blog{' '}
-          </a>
         </nav>
         <div className="md:hidden">
           <button
@@ -85,14 +81,6 @@ const Header: React.FC = () => {
           onClick={() => setIsMobileMenuOpen(false)}
         >
           Komunitas
-        </a>
-        <a
-          className="block px-4 py-3 hover:bg-green-50"
-          href="#blog"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          {' '}
-          Blog{' '}
         </a>
       </nav>
     </header>

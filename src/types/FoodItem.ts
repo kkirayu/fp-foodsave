@@ -6,4 +6,5 @@ export interface FoodItem {
   description: string;
   price: string;
   pickupTime: string;
+  stock: number;
 }

@@ -6,6 +6,8 @@ export interface Order {
   quantity: number;
   notes: string;
   totalPrice: number;
-  status: 'pending' | 'paid' | 'cancelled';
+  status: 'pending' | 'paid' | 'picked_up' | 'cancelled'; 
   orderDate: string;
+  customerName: string; 
+  pickupCode: string; 
 }
