@@ -62,7 +62,7 @@ const BrowseFoodSection: React.FC = () => {
   };
 
   return (
-    <section className="py-16 px-6 md:px-12 bg-green-50" id="browse-food">
+    <section className="py-16 px-6 md:px-12 bg-green-50" >
       <h2 className="text-3xl font-bold text-center text-green-700 mb-12">
         Cari Makanan Sisa di Sekitarmu
       </h2>

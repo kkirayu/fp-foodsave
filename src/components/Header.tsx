@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,10 +28,10 @@ const Header: React.FC = () => {
           <a className="hover:text-green-600 transition" href="#how-it-works">
             Cara Kerja
           </a>
-          <a className="hover:text-green-600 transition" href="#browse-food">
+          <Link className="hover:text-green-600 transition" to="/makanan">
             Cari Makanan
-          </a>
-          <a className="hover:text-green-600 transition" href="admin.html"> {/* Keep as is or change based on actual admin page */}
+          </Link>
+          <a className="hover:text-green-600 transition" href="admin.html"> 
             Penjual
           </a>
           <a className="hover:text-green-600 transition" href="#community">
@@ -64,13 +65,13 @@ const Header: React.FC = () => {
         >
           Cara Kerja
         </a>
-        <a
+        <Link
           className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
-          href="#browse-food"
+          to="/makanan"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           Cari Makanan
-        </a>
+        </Link>
         <a
           className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
           href="#seller-dashboard"
