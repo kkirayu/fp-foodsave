@@ -1,6 +1,5 @@
-// src/components/OrderForm.tsx
 import React, { useState } from 'react';
-import type { FoodItem } from '../types/FoodItem'; // Pastikan path ini benar
+import type { FoodItem } from '../types/FoodItem'; 
 
 interface OrderFormProps {
   foodItem: FoodItem;
@@ -17,7 +16,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ foodItem, onPlaceOrder, onCancel 
     if (quantity > 0) {
       onPlaceOrder(foodItem, quantity, notes);
     } else {
-      alert('Kuantitas harus lebih dari 0.'); // Gunakan modal kustom di aplikasi nyata
+      alert('Kuantitas harus lebih dari 0.'); 
     }
   };
 

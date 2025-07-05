@@ -31,11 +31,11 @@ const SellerDashboardPage: React.FC = () => {
       >
         <div className="flex items-center justify-between md:justify-center mb-8">
           <Link to="/penjual" className="text-2xl font-bold text-white flex items-center space-x-2">
-            {/* <img
+            <img
               alt="Logo FoodSaver"
               className="w-8 h-8 rounded-full"
-              src="#"
-            /> */}
+              src="/img/logo.png"
+            />
             <span>FoodSaver</span>
           </Link>
           <button onClick={toggleSidebar} className="md:hidden text-white focus:outline-none">

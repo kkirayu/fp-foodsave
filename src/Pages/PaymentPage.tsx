@@ -5,7 +5,7 @@ import type { Order } from '../types/Order';
 const PaymentPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const order = location.state?.order as Order | undefined; // Ambil data pesanan dari state navigasi
+  const order = location.state?.order as Order | undefined; 
 
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'failed'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
