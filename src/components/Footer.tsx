@@ -68,14 +68,14 @@ const Footer: React.FC = () => {
         <div>
           <h4 className="text-lg font-bold mb-4">Kontak</h4>
           <address className="not-italic text-sm space-y-2">
-            <p>Jl. Makanan No. 123, Jakarta</p>
-            <p>Email: support@foodsaver.id</p>
-            <p>Telepon: +62 812 3456 7890</p>
+            <p>Jl. Amikom</p>
+            <p>Email: zeta@gmail.com</p>
+            <p>Telepon: +62 822 3794 3100</p>
           </address>
         </div>
       </div>
       <div className="mt-10 text-center text-green-300 text-sm">
-        © 2024 FoodSaver. Semua hak cipta dilindungi.
+        © 2025 FoodSaver. Semua hak cipta dilindungi.
       </div>
     </footer>
   );
