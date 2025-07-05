@@ -85,7 +85,6 @@ const ArticleDetailPage: React.FC = () => {
         <p className="text-gray-800 leading-relaxed text-lg mb-8">
           {article.description}
         </p>
-        {/* Anda bisa menambahkan lebih banyak paragraf atau elemen di sini */}
         <p className="text-gray-700 italic">
           Artikel ini adalah bagian dari upaya FoodSaver untuk meningkatkan kesadaran tentang pentingnya mengurangi limbah makanan.
         </p>
