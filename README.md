@@ -1,3 +1,41 @@
+# 🥗 Final Project AMCC Kelompok 1 - Web Dev
+
+**FoodSave** adalah platform web yang dikembangkan sebagai final project oleh kelompok 1 Web Development AMCC.  
+Tujuan dari project ini adalah untuk **mengurangi limbah makanan** dengan cara menjual makanan berlebih atau hampir kedaluwarsa dengan harga murah, daripada dibuang begitu saja.
+
+---
+
+## 🚀 Cara Menjalankan Project
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Build project:
+   ```bash
+   npm run build
+   ```
+
+3. Jalankan development server:
+   ```bash
+   npm run dev
+   ```
+
+---
+## 🔗 Akses Website
+
+Untuk mengakses halaman dashboard penjual, gunakan link berikut:
+
+➡️ [https://fp-foodsave-amcc.vercel.app](https://fp-foodsave-amcc.vercel.app)
+
+## 🔗 Akses Halaman Dashboard Penjual
+
+Untuk mengakses halaman dashboard penjual, gunakan link berikut:
+
+➡️ [https://fp-foodsave-amcc.vercel.app/penjual](https://fp-foodsave-amcc.vercel.app/penjual)
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -54,12 +92,3 @@ export default tseslint.config([
   },
 ])
 ```
-
-
----
-
-## 🔗 Akses Halaman Dashboard Penjual
-
-Untuk mengakses halaman dashboard penjual, gunakan link berikut:
-
-➡️ [https://fp-foodsave-amcc.vercel.app/penjual](https://fp-foodsave-amcc.vercel.app/penjual)
