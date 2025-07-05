@@ -74,13 +74,13 @@ const SellerDashboardPage: React.FC = () => {
             <i className="fas fa-check-square mr-3"></i>
             Persetujuan Pesanan
           </Link>
-          <Link
+          {/* <Link
             to="/"
             className="flex items-center px-4 py-2 rounded-md font-semibold transition duration-200 hover:bg-green-700"
           >
             <i className="fas fa-home mr-3"></i>
             Kembali ke Beranda
-          </Link>
+          </Link> */}
         </nav>
       </aside>
 
