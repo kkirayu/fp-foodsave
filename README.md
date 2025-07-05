@@ -25,7 +25,7 @@ Tujuan dari project ini adalah untuk **mengurangi limbah makanan** dengan cara m
 ---
 ## 🔗 Akses Website
 
-Untuk mengakses halaman dashboard penjual, gunakan link berikut:
+Untuk mengakses website gunakan link berikut:
 
 ➡️ [https://fp-foodsave-amcc.vercel.app](https://fp-foodsave-amcc.vercel.app)
 
