@@ -5,7 +5,7 @@ import type { Article } from '../types/Article';
 const dummyArticles: Article[] = [
   {
     id: '1',
-    imageSrc: 'https://placehold.co/800x450/E0F2F1/004D40?text=Article+1', 
+    imageSrc: '/img/6.png', 
     imageAlt: 'Tumpukan sampah makanan di tempat pembuangan akhir',
     title: 'Dampak Sampah Makanan Terhadap Perubahan Iklim',
     description: 'Limbah makanan adalah masalah global yang kompleks dengan dampak lingkungan, sosial, dan ekonomi yang signifikan. Salah satu dampak paling krusial adalah kontribusinya terhadap perubahan iklim. Ketika makanan terbuang dan membusuk di tempat pembuangan akhir, ia menghasilkan metana, gas rumah kaca yang jauh lebih kuat daripada karbon dioksida dalam jangka pendek. Diperkirakan bahwa limbah makanan menyumbang sekitar 8-10% dari emisi gas rumah kaca global. Mengurangi limbah makanan bukan hanya tentang menghemat sumber daya, tetapi juga merupakan langkah penting dalam mitigasi perubahan iklim.',
@@ -15,7 +15,7 @@ const dummyArticles: Article[] = [
   },
   {
     id: '2',
-    imageSrc: 'https://placehold.co/800x450/C8E6C9/1B5E20?text=Article+2', 
+    imageSrc: '/img/7.png', 
     imageAlt: 'Kompos dari sampah makanan',
     title: 'Solusi Inovatif Mengurangi Limbah Makanan di Perkotaan',
     description: 'Kota-kota besar menghadapi tantangan besar dalam mengelola limbah makanan karena kepadatan penduduk dan konsumsi yang tinggi. Namun, berbagai solusi inovatif mulai diterapkan. Ini termasuk program pengumpulan kompos rumah tangga, teknologi pengolahan limbah makanan menjadi energi (biogas), aplikasi yang menghubungkan surplus makanan dengan mereka yang membutuhkan, dan kebijakan insentif untuk restoran dan toko kelontong agar mengurangi pemborosan. Edukasi publik juga memainkan peran kunci dalam mengubah perilaku konsumen.',
@@ -25,7 +25,7 @@ const dummyArticles: Article[] = [
   },
   {
     id: '3',
-    imageSrc: 'https://placehold.co/800x450/A5D6A7/2E7D32?text=Article+3', 
+    imageSrc: '/img/8.png', 
     imageAlt: 'Orang-orang menerima donasi makanan',
     title: 'Peran Komunitas dalam Menyelamatkan Makanan Berlebih',
     description: 'Gerakan akar rumput dan inisiatif komunitas memainkan peran vital dalam mengurangi limbah makanan. Bank makanan, dapur umum, dan program penyelamatan makanan sukarela bekerja tanpa lelah untuk mengumpulkan makanan berlebih dari supermarket, restoran, dan acara, kemudian mendistribusikannya kepada individu dan keluarga yang rentan pangan. Upaya ini tidak hanya mengurangi pemborosan tetapi juga mengatasi masalah ketahanan pangan, menciptakan jembatan antara surplus dan kebutuhan.',
@@ -35,7 +35,7 @@ const dummyArticles: Article[] = [
   },
   {
     id: '4',
-    imageSrc: 'https://placehold.co/800x450/81C784/388E3C?text=Article+4',
+    imageSrc: '/img/9.png',
     imageAlt: 'Petani menanam tanaman secara berkelanjutan',
     title: 'Dari Petani ke Meja: Mengurangi Kerugian Pangan di Rantai Pasok',
     description: 'Kerugian pangan tidak hanya terjadi di tingkat konsumen tetapi juga di sepanjang rantai pasok, mulai dari pertanian hingga distribusi. Faktor-faktor seperti praktik panen yang tidak efisien, penyimpanan yang buruk, dan standar kualitas yang ketat menyebabkan sejumlah besar makanan tidak pernah mencapai pasar. Solusi yang diusulkan meliputi peningkatan infrastruktur pasca-panen, penggunaan teknologi untuk memantau kondisi penyimpanan, dan pengembangan pasar untuk produk "jelek" yang masih layak konsumsi.',

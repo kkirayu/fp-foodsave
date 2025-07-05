@@ -15,13 +15,13 @@ const Header: React.FC = () => {
           className="text-2xl font-bold text-green-600 flex items-center space-x-2"
           href="/"
         >
-          {/* <img
+          <img
             alt="Logo FoodSaver berupa ikon piring dengan daun hijau di atasnya"
             className="w-10 h-10"
             height="40"
-            src="../assets/logo.png"
+            src="/img/logo.png"
             width="40"
-          /> */}
+          />
           <span> FoodSaver </span>
         </a>
         <nav className="hidden md:flex space-x-8 font-semibold text-gray-700">

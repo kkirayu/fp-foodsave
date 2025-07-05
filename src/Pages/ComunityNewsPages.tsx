@@ -5,7 +5,7 @@ import type { Article } from '../types/Article';
 const dummyArticles: Article[] = [
   {
     id: '1',
-    imageSrc: 'https://placehold.co/400x250/E0F2F1/004D40?text=Food+Waste', 
+    imageSrc: '/img/6.png', 
     imageAlt: 'Tumpukan sampah makanan di tempat pembuangan akhir',
     title: 'Dampak Sampah Makanan Terhadap Perubahan Iklim',
     description: 'Pelajari bagaimana limbah makanan berkontribusi pada emisi gas rumah kaca dan krisis iklim global.',
@@ -15,7 +15,7 @@ const dummyArticles: Article[] = [
   },
   {
     id: '2',
-    imageSrc: 'https://placehold.co/400x250/C8E6C9/1B5E20?text=Composting', 
+    imageSrc: '/img/7.png', 
     imageAlt: 'Kompos dari sampah makanan',
     title: 'Solusi Inovatif Mengurangi Limbah Makanan di Perkotaan',
     description: 'Berbagai inisiatif dan teknologi baru untuk mengelola dan mengurangi sampah makanan di kota-kota besar.',
@@ -25,7 +25,7 @@ const dummyArticles: Article[] = [
   },
   {
     id: '3',
-    imageSrc: 'https://placehold.co/400x250/A5D6A7/2E7D32?text=Food+Donation', 
+    imageSrc: '/img/8.png', 
     imageAlt: 'Orang-orang menerima donasi makanan',
     title: 'Peran Komunitas dalam Menyelamatkan Makanan Berlebih',
     description: 'Bagaimana gerakan akar rumput dan inisiatif komunitas membantu mendistribusikan makanan yang masih layak.',
@@ -35,7 +35,7 @@ const dummyArticles: Article[] = [
   },
   {
     id: '4',
-    imageSrc: 'https://placehold.co/400x250/81C784/388E3C?text=Sustainable+Farm', 
+    imageSrc: '/img/9.png', 
     imageAlt: 'Petani menanam tanaman secara berkelanjutan',
     title: 'Dari Petani ke Meja: Mengurangi Kerugian Pangan di Rantai Pasok',
     description: 'Menganalisis titik-titik kerugian pangan dari pertanian hingga konsumen dan cara mengatasinya.',

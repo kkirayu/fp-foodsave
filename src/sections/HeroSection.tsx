@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
           className="mx-auto rounded-lg shadow-lg"
           height="400"
           loading="lazy"
-          src="https://storage.googleapis.com/a1aa/image/6be53102-de01-40a2-aeaf-74047a0162dc.jpg"
+          src="/img/hero.png"
           width="800"
         />
       </div>

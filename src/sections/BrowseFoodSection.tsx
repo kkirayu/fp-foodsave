@@ -7,30 +7,33 @@ import OrderForm from '../components/OrderForm';
 const foodItems: FoodItem[] = [
   {
     id: 'food1',
-    imageSrc: 'https://storage.googleapis.com/a1aa/image/3413175d-3cb8-46d5-e81e-f170bcc827a9.jpg',
+    imageSrc: '/img/1.png',
     imageAlt: 'Nasi Goreng Spesial dengan telur dan sayuran segar di piring putih',
     title: 'Nasi Goreng Spesial',
     description: 'Nasi goreng dengan telur, sayuran segar, dan bumbu khas Indonesia. Porsi 1 piring.',
     price: 'Rp 15.000',
     pickupTime: '20.00 - 21.00',
+    stock: 10, 
   },
   {
     id: 'food2',
-    imageSrc: 'https://storage.googleapis.com/a1aa/image/9b12dc9c-d92e-416a-9ffa-80e5ae19c0c6.jpg',
+    imageSrc: '/img/2.png',
     imageAlt: 'Roti tawar gurih dengan selai stroberi merah segar di atas piring kayu',
     title: 'Roti Tawar dengan Selai Stroberi',
     description: 'Roti tawar lembut dengan selai stroberi manis, cocok untuk sarapan atau camilan.',
     price: 'Rp 8.000',
     pickupTime: '19.30 - 20.30',
+    stock: 10,
   },
   {
     id: 'food3',
-    imageSrc: 'https://storage.googleapis.com/a1aa/image/7bae9ff7-fdbe-4e96-6418-c79d7cedd1bf.jpg',
+    imageSrc: '/img/3.png',
     imageAlt: 'Segelas es teh manis dengan daun mint segar dan es batu di gelas kaca bening',
     title: 'Es Teh Manis Mint',
     description: 'Minuman segar es teh manis dengan daun mint, cocok untuk melepas dahaga di siang hari.',
     price: 'Rp 5.000',
     pickupTime: '18.00 - 19.00',
+    stock: 10,
   },
   {
     id: 'food4',
@@ -40,24 +43,27 @@ const foodItems: FoodItem[] = [
     description: 'Kue lapis tradisional dengan warna-warni cerah dan rasa manis lembut, cocok untuk dessert.',
     price: 'Rp 12.000',
     pickupTime: '20.00 - 21.00',
+    stock: 10,
   },
   {
     id: 'food5',
-    imageSrc: 'https://storage.googleapis.com/a1aa/image/7e864d6a-a229-4304-59ec-32469920139e.jpg',
+    imageSrc: '/img/4.png',
     imageAlt: 'Sepiring ayam goreng kremes dengan sambal pedas dan lalapan segar di piring putih',
     title: 'Ayam Goreng Kremes',
     description: 'Ayam goreng renyah dengan kremesan gurih dan sambal pedas, porsi lengkap dengan lalapan.',
     price: 'Rp 20.000',
     pickupTime: '19.00 - 20.00',
+    stock: 10,
   },
   {
     id: 'food6',
-    imageSrc: 'https://storage.googleapis.com/a1aa/image/ab2f1cc9-64a5-43d6-0a62-66989e507257.jpg',
+    imageSrc: '/img/5.png',
     imageAlt: 'Mangkok salad buah segar berisi potongan melon, semangka, anggur, dan yogurt putih',
     title: 'Salad Buah Segar',
     description: 'Campuran buah segar dengan yogurt, cocok untuk camilan sehat dan menyegarkan.',
     price: 'Rp 10.000',
     pickupTime: '18.30 - 19.30',
+    stock: 10,
   },
 ];
 
@@ -65,12 +71,11 @@ const foodItems: FoodItem[] = [
 const BrowseFoodSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedFoodItem, setSelectedFoodItem] = useState<FoodItem | null>(null);
-  const navigate = useNavigate(); // Inisialisasi useNavigate
+  const navigate = useNavigate(); 
 
   const handleSubmitFilters = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Search filters submitted!');
-    // Filter logic will be added here in the future
   };
 
   const handleOrderClick = (item: FoodItem) => {
@@ -83,7 +88,6 @@ const BrowseFoodSection: React.FC = () => {
     setIsModalOpen(false);
     setSelectedFoodItem(null);
 
-    // Redirect to payment page with order details
     navigate('/pembayaran', {
       state: {
         order: {
@@ -91,7 +95,7 @@ const BrowseFoodSection: React.FC = () => {
           quantity,
           notes,
           totalPrice: parseFloat(item.price.replace('Rp ', '').replace('.', '')) * quantity,
-          orderId: `ORD-${Date.now()}`, // Simple unique ID for order
+          orderId: `ORD-${Date.now()}`, 
         },
       },
     });
@@ -171,7 +175,6 @@ const BrowseFoodSection: React.FC = () => {
             </button>
           </form>
         </aside>
-        {/* Food Listings */}
         <section className="md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {foodItems.map((item) => (
             <article
@@ -197,6 +200,12 @@ const BrowseFoodSection: React.FC = () => {
                   </span>
                   <span className="text-sm text-gray-500">
                     Ambil: {item.pickupTime}
+                  </span>
+                   
+                </div>
+                <div className='text-gray-600'>
+                  <span className="text-sm text-gray-500">
+                    Stok: {item.stock}
                   </span>
                 </div>
                 <button
