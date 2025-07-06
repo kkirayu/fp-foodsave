@@ -44,9 +44,9 @@ Untuk mempermudah juri/penguji, kami telah menyediakan prototipe yang dapat diak
 ## ✨ Tampilan Web
 
 <p align="center">
-  <img src="https://via.placeholder.com/200x400.png?text=Halaman+Login" width="200" alt="Halaman Login">
-  <img src="https://via.placeholder.com/200x400.png?text=Halaman+Dashboard" width="200" alt="Halaman Dashboard">
-  <img src="https://via.placeholder.com/200x400.png?text=Halaman+Tambah+Transaksi" width="200" alt="Halaman Tambah Transaksi">
+  <img src="README-assets/1.png" width="200" alt="Halaman Dashboard">
+  <img src="README-assets/2.png" width="200" alt="Halaman Dashboard">
+  <img src="README-assets/3.png" width="200" alt="Halaman landing Pages">
 </p>
 
 ---
