@@ -1,94 +1,173 @@
-# 🥗 Final Project AMCC Kelompok 1 - Web Dev
+<h1 align="center">
+ Food Saver
+</h1>
 
-**FoodSave** adalah platform web yang dikembangkan sebagai final project oleh kelompok 1 Web Development AMCC.  
-Tujuan dari project ini adalah untuk **mengurangi limbah makanan** dengan cara menjual makanan berlebih atau hampir kedaluwarsa dengan harga murah, daripada dibuang begitu saja.
+<div align="center">
+ <img src="/img/logo.png" width="200" alt="Logo Seimbang.in"/>
+</div>
+
+<h1 align="center">
+ Food Saver
+</h1>
+
+<p align="center">
+Food Saver adalah sebuah platform digital yang bertujuan untuk mengurangi masalah sampah makanan dengan cara yang inovatif dan berkelanjutan. Website ini menjadi penghubung antara pelaku usaha makanan (seperti restoran, kafe, katering, atau toko roti) dengan konsumen yang peduli lingkungan.
+
+Melalui Food Saver, makanan sisa yang masih layak konsumsi — namun tidak lagi bisa dijual dengan harga normal karena alasan estetika atau waktu penyajian — ditawarkan kepada masyarakat dengan harga yang jauh lebih murah. Misi kami adalah mengurangi pemborosan makanan, memberdayakan pelaku usaha makanan, serta memberikan akses makanan terjangkau bagi masyarakat luas.
+
+Tidak hanya sebagai marketplace, Food Saver juga berperan sebagai media edukasi tentang kesadaran pangan, keamanan makanan, dan gaya hidup berkelanjutan. Dengan menggunakan Food Saver, setiap pengguna turut berkontribusi dalam upaya menciptakan sistem pangan yang lebih adil, efisien, dan ramah lingkungan.
+
+</p>
+
+<p align="center">
+    <a href="#">
+      <img src="https://img.shields.io/badge/status-prototipe-yellow" alt="Status Proyek">
+    </a>
+    <a href="#">
+      <img src="https://img.shields.io/badge/license-MIT-blue" alt="Lisensi">
+    </a>
+</p>
 
 ---
 
-## 🚀 Cara Menjalankan Project
+## 🌐 Akses Demo & Akun Pengujian
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+Untuk mempermudah juri/penguji, kami telah menyediakan prototipe yang dapat diakses secara online serta akun demo.
 
-2. Build project:
-   ```bash
-   npm run build
-   ```
+- **Link Demo**: `[https://foodsave-two.vercel.app/]` (optional)
+- **Link Postman / Dokumentasi API** : `[On Progress]`
 
-3. Jalankan development server:
-   ```bash
-   npm run dev
-   ```
 
 ---
-## 🔗 Akses Website
 
-Untuk mengakses website gunakan link berikut:
+## ✨ Tampilan Web
 
-➡️ [https://fp-foodsave-amcc.vercel.app](https://fp-foodsave-amcc.vercel.app)
+<p align="center">
+  <img src="https://via.placeholder.com/200x400.png?text=Halaman+Login" width="200" alt="Halaman Login">
+  <img src="https://via.placeholder.com/200x400.png?text=Halaman+Dashboard" width="200" alt="Halaman Dashboard">
+  <img src="https://via.placeholder.com/200x400.png?text=Halaman+Tambah+Transaksi" width="200" alt="Halaman Tambah Transaksi">
+</p>
 
-## 🔗 Akses Halaman Dashboard Penjual
+---
 
-Untuk mengakses halaman dashboard penjual, gunakan link berikut:
+## 📝 Status Prototipe
 
-➡️ [https://fp-foodsave-amcc.vercel.app/penjual](https://fp-foodsave-amcc.vercel.app/penjual)
+Repositori ini berisi prototipe untuk proyek final. Tidak semua fitur yang tercantum dalam deskripsi telah diimplementasikan sepenuhnya. Fokus kami untuk fase ini adalah menghadirkan fungsionalitas inti yang solid.
+
+**Fitur yang Sudah Diimplementasikan:**
+
+- [x] Landing Page
+- [x] User Profile
+- [x] Pemesanan
+- [x] Manajemen Makanan bagi penjual
+- [x] Daftar Sebagai penjual
+- [ ] Login & Register
+- [ ] Dashboard Admin
+- [ ] Maps
+
+---
+
+## 🌟 Fitur Aplikasi
+
+Berikut adalah fitur-fitur yang kami rencanakan untuk Seimbang.in:
+
+### 1. Fitur Registrasi & Login Pengguna
+
+### 2. Dashboard Penjual: Tambah, edit, dan hapus produk makanan
+
+### 3. Fitur Pembelian Makanan Murah oleh Pembeli
+
+### 4. Statistik Makanan Terselamatkan dari Pemborosan
 
 
-# React + TypeScript + Vite
+---
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🛠️ Tech Stack
 
-Currently, two official plugins are available:
+- **Frontend**: `[React, TypeScript]`
+- **Backend**: `[Laravel (On progress)]`
+- **Database**: `[Mysql]`
+- **Lainnya**: `[TailwindCSS, Filament]`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Cara Menjalankan Proyek Secara Lokal
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Pre-requisite
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      ...tseslint.configs.recommendedTypeChecked,
-      ...tseslint.configs.strictTypeChecked,
-      ...tseslint.configs.stylisticTypeChecked,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-])
-```
+- Node.js (v18++)
+- npm atau yarn
+- Git
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+<!-- ### Backend (PHP Laravel)
 
-```js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1.  **Clone repositori ini:**
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      reactX.configs['recommended-typescript'],
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-])
-```
+    ```bash
+    git clone [https://github.com/username/nama-repo.git](https://github.com/username/nama-repo.git)
+    cd nama-repo
+    ```
+
+2.  **Install dependency via Composer:**
+
+    ```bash
+    composer install
+    ```
+
+3.  **Salin file environment:**
+
+    ```bash
+    cp .env.example .env
+    ```
+
+4.  **Generate application key:**
+
+    ```bash
+    php artisan key:generate
+    ```
+
+5.  **Konfigurasi database di file `.env` kamu.**
+
+6.  **Jalankan migrasi database:**
+
+    ```bash
+    php artisan migrate
+    ```
+
+7.  **Jalankan server lokal:**
+    ```bash
+    php artisan serve
+    ```
+    Backend akan berjalan di `http://localhost:8000`.
+
+--- -->
+
+### Frontend (Tailwind CLI)
+
+<!-- 1.  **Pindah ke direktori frontend (jika terpisah):**
+
+    ```bash
+    # Jika frontend berada di folder terpisah, pindah ke folder tersebut
+    # Contoh: cd ../frontend
+    ``` -->
+
+1.  **Install dependency Node.js:**
+
+    ```bash
+    npm install
+    ```
+
+2.  **Jalankan Tailwind CLI untuk memantau dan build CSS:**
+    ```bash
+    npm run watch
+    ```
+
+---
+
+## 👨‍💻 Tim Kami
+
+- Fauzun Naja 
+- Handy Bryan Yudishtira
+- Muhammad Danil
+
+---
