@@ -3,7 +3,7 @@
 </h1>
 
 <div align="center">
- <img src="/img/logo.png" width="200" alt="Logo Seimbang.in"/>
+  <img src="README-assets/logo.png" width="200" alt="Logo FoodSave"/>
 </div>
 
 <h1 align="center">
