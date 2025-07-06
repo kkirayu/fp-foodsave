@@ -34,7 +34,8 @@ Tidak hanya sebagai marketplace, Food Saver juga berperan sebagai media edukasi 
 
 Untuk mempermudah juri/penguji, kami telah menyediakan prototipe yang dapat diakses secara online serta akun demo.
 
-- **Link Demo**: `[https://foodsave-two.vercel.app/]` (optional)
+- **Link Demo**: `https://foodsave-two.vercel.app/`
+- **Link Dashboard Penjual**: `https://foodsave-two.vercel.app/penjual`
 - **Link Postman / Dokumentasi API** : `[On Progress]`
 
 
