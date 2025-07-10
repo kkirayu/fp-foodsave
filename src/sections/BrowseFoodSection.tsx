@@ -4,8 +4,10 @@ import type { FoodItem } from '../types/FoodItem';
 import Modal from '../components/Modal';
 import OrderForm from '../components/OrderForm';
 
+const API_BASE_URL = 'https://food-saver.kontrakita.web.id';
+
 const BrowseFoodSection: React.FC = () => {
-  const [allFoodItems, setAllFoodItems] = useState<FoodItem[]>([]); 
+  const [allFoodItems, setAllFoodItems] = useState<FoodItem[]>([]);
   const [filteredFoodItems, setFilteredFoodItems] = useState<FoodItem[]>([]); 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,10 +17,10 @@ const BrowseFoodSection: React.FC = () => {
 
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [priceFilter, setPriceFilter] = useState<number | ''>('');
-  const [distanceFilter, setDistanceFilter] = useState<number | ''>('');
+  const [distanceFilter, setDistanceFilter] = useState<number | ''>(''); 
 
   const applyFilters = useCallback(() => {
-    let tempItems = [...allFoodItems];
+    let tempItems = [...allFoodItems]; 
 
     if (categoryFilter) {
       tempItems = tempItems.filter(item => item.kategori.nama.toLowerCase() === categoryFilter.toLowerCase());
@@ -40,7 +42,7 @@ const BrowseFoodSection: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const apiUrl = 'https://food-saver.kontrakita.web.id/api/v1/pembeli/makanan';
+        const apiUrl = `${API_BASE_URL}/api/v1/pembeli/makanan`;
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -48,17 +50,17 @@ const BrowseFoodSection: React.FC = () => {
         }
         const result = await response.json();
 
-        const apiFoodData = result.data || result; 
+        const apiFoodData = result; 
 
         const formattedFoodItems: FoodItem[] = apiFoodData.map((item: any) => ({
           id: item.id.toString(),
-          imageSrc: item.image || 'https://placehold.co/400x250/E0F2F1/004D40?text=No+Image',
+          imageSrc: item.image && item.image.startsWith('/') ? `${API_BASE_URL}${item.image}` : item.image || 'https://placehold.co/400x250/E0F2F1/004D40?text=No+Image',
           imageAlt: item.name,
           title: item.name,
           description: item.description,
           price: `Rp ${item.discounted_price.toLocaleString('id-ID')}`,
           originalPrice: item.original_price ? `Rp ${item.original_price.toLocaleString('id-ID')}` : undefined, 
-          rawDiscountedPrice: item.discounted_price, 
+          rawDiscountedPrice: item.discounted_price,
           rawOriginalPrice: item.original_price, 
           pickupTime: `${item.start_time.substring(0, 5)} - ${item.end_time.substring(0, 5)}`,
           stock: item.current_stock,
@@ -83,11 +85,11 @@ const BrowseFoodSection: React.FC = () => {
     };
 
     fetchFoodData();
-  }, []);
+  }, []); 
 
-    useEffect(() => {
+  useEffect(() => {
     applyFilters();
-  }, [allFoodItems, applyFilters]);
+  }, [allFoodItems, applyFilters]); 
 
   const handleSubmitFilters = (e: React.FormEvent) => {
     e.preventDefault();
@@ -148,7 +150,7 @@ const BrowseFoodSection: React.FC = () => {
               >
                 <option value="">Semua Kategori</option>
                 <option value="Makanan Ringan">Makanan Ringan</option>
-                <option value="Masakan Indonesia">Masakan Indonesia</option>
+                <option value="Makanan Berat">Makanan Berat</option>
                 <option value="Dessert">Dessert</option>
                 <option value="Roti & Kue">Roti &amp; Kue</option>
                 <option value="Minuman">Minuman</option>
@@ -265,6 +267,7 @@ const BrowseFoodSection: React.FC = () => {
         </section>
       </div>
 
+      {/* Order Modal */}
       {selectedFoodItem && (
         <Modal
           isOpen={isModalOpen}
