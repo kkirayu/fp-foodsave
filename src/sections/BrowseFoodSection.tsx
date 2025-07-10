@@ -267,7 +267,6 @@ const BrowseFoodSection: React.FC = () => {
         </section>
       </div>
 
-      {/* Order Modal */}
       {selectedFoodItem && (
         <Modal
           isOpen={isModalOpen}
