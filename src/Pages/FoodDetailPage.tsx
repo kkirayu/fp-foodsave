@@ -7,7 +7,7 @@ const FoodDetailPage = () => {
     const navigate = useNavigate();
     const [food, setFood] = useState<FoodItem | null>(null);
     const [quantity, setQuantity] = useState(1);
-    const [paymentMethod, setPaymentMethod] = useState('qris'); // State untuk metode pembayaran
+    const [paymentMethod, setPaymentMethod] = useState('qris');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -35,12 +35,11 @@ const FoodDetailPage = () => {
         e.preventDefault();
         if (!food) return;
         
-        // Arahkan ke halaman pembayaran dengan membawa semua data yang diperlukan
         navigate('/payment', {
             state: {
                 food,
                 quantity,
-                paymentMethod, // Kirim metode pembayaran yang dipilih
+                paymentMethod, 
             }
         });
     };
@@ -86,7 +85,6 @@ const FoodDetailPage = () => {
                             />
                         </div>
 
-                        {/* Pilihan Metode Pembayaran */}
                         <div className="mb-6">
                             <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700">Metode Pembayaran</label>
                             <select

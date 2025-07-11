@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import React from 'react';
 import HeroSection from '../sections/HeroSection';
 import HowItWorksSection from '../sections/HowItWorksSection';

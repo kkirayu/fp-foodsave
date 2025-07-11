@@ -48,14 +48,14 @@ const RegisterPage = () => {
         method: 'POST',
         body: data,
         headers: {
-            'Accept': 'application/json', // Penting untuk menerima response JSON
+            'Accept': 'application/json',
         }
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        if (response.status === 422) { // Error validasi dari Laravel
+        if (response.status === 422) { 
           setErrors(result.errors);
         } else {
           throw new Error(result.message || 'Registrasi gagal. Silakan coba lagi.');
@@ -63,7 +63,6 @@ const RegisterPage = () => {
         return;
       }
       
-      // Jika berhasil, arahkan ke halaman login dengan pesan sukses
       navigate('/login', { state: { message: 'Registrasi berhasil! Silakan login.' } });
 
     } catch (err: any) {
