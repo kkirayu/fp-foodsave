@@ -146,7 +146,7 @@ const CariMakanan = () => {
                 }
               />
             </div>
-            <div>
+            {/* <div>
               <label
                 className="block text-gray-700 font-medium mb-1"
                 htmlFor="distance"
@@ -164,7 +164,7 @@ const CariMakanan = () => {
                   setDistanceFilter(parseFloat(e.target.value) || "")
                 }
               />
-            </div>
+            </div> */}
             <button
               className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition"
               type="submit"
@@ -232,11 +232,6 @@ const CariMakanan = () => {
                       <div className="mt-3 flex items-center justify-between">
                         <span className="text-green-700 font-bold text-lg">
                           Rp {item.discounted_price.toLocaleString("id-ID")}
-                          {item.original_price && (
-                            <span className="ml-2 text-gray-500 line-through text-sm">
-                              Rp {item.original_price.toLocaleString("id-ID")}
-                            </span>
-                          )}
                         </span>
                         <span className="text-sm text-gray-500">
                           Ambil: {item.start_time.substring(0, 5)} -{" "}
