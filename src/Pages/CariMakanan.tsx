@@ -32,7 +32,6 @@ const CariMakanan = () => {
   const applyFilters = useCallback(() => {
     let tempItems = [...allFoodItems];
 
-    // 1. Filter
     if (categoryFilter) {
       tempItems = tempItems.filter(
         (item) =>

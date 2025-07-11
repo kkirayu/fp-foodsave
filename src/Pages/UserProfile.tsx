@@ -4,15 +4,7 @@ import Modal from '../components/Modal';
 import EditBiodataForm from '../components/EditBiodataForm';
 import { useAuth } from '../context/AuthContext';
 import type { Pembeli } from '../types/Pembeli';
-import type { User } from '../types/User';
-
-interface Pesanan {
-  id: string;
-  item: string; 
-  quantity: number;
-  status: 'Menunggu Pengambilan' | 'Siap Diambil' | 'Selesai' | 'Dibatalkan';
-  pickupTime: string; 
-}
+import type { Pesanan } from '../types/Order'; 
 
 interface UserData {
   fullName: string;
@@ -51,10 +43,9 @@ const UserProfilePage: React.FC = () => {
       });
 
       const fetchOrders = async () => {
-        if (!pembeli.id) return;
         setIsOrdersLoading(true);
         try {
-          const response = await fetch(`https://food-saver.kontrakita.web.id/api/pesanan/pembeli/${pembeli.id}`, {
+          const response = await fetch(`https://food-saver.kontrakita.web.id/api/v1/pembeli/pesanan`, {
              headers: {
                 'Authorization': `Bearer ${token}`
              }
@@ -63,12 +54,12 @@ const UserProfilePage: React.FC = () => {
             throw new Error('Gagal mengambil data pesanan');
           }
           const allOrders: Pesanan[] = await response.json();
-
+          
           const active = allOrders.filter(order => 
-            order.status === 'Menunggu Pengambilan' || order.status === 'Siap Diambil'
+            ['pending', 'confirmed', 'siap_diambil'].includes(order.status)
           );
           const history = allOrders.filter(order => 
-            order.status === 'Selesai' || order.status === 'Dibatalkan'
+            ['sudah_diambil', 'dibatalkan_pembeli', 'dibatalkan_penjual'].includes(order.status)
           );
 
           setActiveOrders(active);
@@ -90,6 +81,19 @@ const UserProfilePage: React.FC = () => {
     alert('Biodata berhasil diperbarui!');
   };
 
+    const getStatusBadge = (status: Pesanan['status']) => {
+        const styles: { [key in Pesanan['status']]: string } = {
+            pending: 'bg-yellow-100 text-yellow-800',
+            confirmed: 'bg-blue-100 text-blue-800',
+            siap_diambil: 'bg-blue-100 text-blue-800',
+            sudah_diambil: 'bg-green-100 text-green-800',
+            dibatalkan_pembeli: 'bg-red-100 text-red-800',
+            dibatalkan_penjual: 'bg-red-100 text-red-800',
+        };
+        return styles[status] || 'bg-gray-100 text-gray-800';
+    };
+
+
   const renderContent = () => {
     if (isLoading) {
       return <p className="text-center">Loading...</p>;
@@ -105,10 +109,10 @@ const UserProfilePage: React.FC = () => {
               <div className="space-y-4">
                 {activeOrders.map((order) => (
                   <div key={order.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                    <p className="font-semibold text-lg">{order.item} ({order.quantity}x)</p>
-                    <p className="text-gray-600">ID Pesanan: {order.id}</p>
-                    <p className="text-gray-600">Status: <span className={`font-medium ${order.status === 'Siap Diambil' ? 'text-green-600' : 'text-blue-600'}`}>{order.status}</span></p>
-                    <p className="text-gray-600">Waktu Pengambilan: {new Date(order.pickupTime).toLocaleString('id-ID')}</p>
+                    <p className="font-semibold text-lg">{order.makanan.name} ({order.quantity}x)</p>
+                    <p className="text-gray-600">ID Pesanan: {order.unique_code}</p>
+                    <p className="text-gray-600">Status: <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(order.status)}`}>{order.status.replace(/_/g, ' ')}</span></p>
+                    <p className="text-gray-600">Waktu Pengambilan: {new Date(order.pickup_date).toLocaleString('id-ID')}</p>
                   </div>
                 ))}
               </div>
@@ -126,10 +130,10 @@ const UserProfilePage: React.FC = () => {
               <div className="space-y-4">
                 {orderHistory.map((order) => (
                   <div key={order.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                    <p className="font-semibold text-lg">{order.item} ({order.quantity}x)</p>
-                    <p className="text-gray-600">ID Pesanan: {order.id}</p>
-                    <p className={`text-gray-600`}>Status: <span className={`font-medium ${order.status === 'Dibatalkan' ? 'text-red-600' : 'text-gray-500'}`}>{order.status}</span></p>
-                    <p className="text-gray-600">Tanggal: {new Date(order.pickupTime).toLocaleString('id-ID')}</p>
+                    <p className="font-semibold text-lg">{order.makanan.name} ({order.quantity}x)</p>
+                    <p className="text-gray-600">ID Pesanan: {order.unique_code}</p>
+                     <p className={`text-gray-600`}>Status: <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(order.status)}`}>{order.status.replace(/_/g, ' ')}</span></p>
+                    <p className="text-gray-600">Tanggal: {new Date(order.pickup_date).toLocaleString('id-ID')}</p>
                   </div>
                 ))}
               </div>
