@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { User, Pembeli } from '../types/User';
 
-// Definisikan tipe untuk context
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
@@ -9,13 +8,11 @@ interface AuthContextType {
   token: string | null;
   login: (data: any) => void;
   logout: () => void;
-  isLoading: boolean; // Untuk mengatasi flicker saat memuat state dari localStorage
+  isLoading: boolean; 
 }
 
-// Buat context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Buat provider component
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
@@ -23,7 +20,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Cek localStorage saat komponen pertama kali dimuat
   useEffect(() => {
     try {
       const storedToken = localStorage.getItem('authToken');
@@ -38,7 +34,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error("Gagal mem-parsing data auth dari localStorage", error);
-      // Bersihkan data yang rusak
       localStorage.removeItem('authToken');
       localStorage.removeItem('authUser');
       localStorage.removeItem('authPembeli');
@@ -47,7 +42,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  // Fungsi untuk login
   const login = (data: any) => {
     localStorage.setItem('authToken', data.token);
     localStorage.setItem('authUser', JSON.stringify(data.user));
@@ -58,9 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAuthenticated(true);
   };
 
-  // Fungsi untuk logout
   const logout = () => {
-    // Idealnya, panggil juga API logout di sini jika ada
     localStorage.removeItem('authToken');
     localStorage.removeItem('authUser');
     localStorage.removeItem('authPembeli');
@@ -77,7 +69,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook untuk menggunakan AuthContext
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

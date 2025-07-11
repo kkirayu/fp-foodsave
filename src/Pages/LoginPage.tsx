@@ -25,7 +25,6 @@ const LoginPage = () => {
     }
 
     try {
-      // Mengubah metode ke POST dan mengirim data di body
       const response = await fetch('https://food-saver.kontrakita.web.id/api/v1/pembeli/login', {
         method: 'POST',
         headers: {
@@ -35,18 +34,15 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      // Coba untuk parse response sebagai JSON, apa pun statusnya
       const data = await response.json();
 
       if (!response.ok) {
-        // Jika response tidak ok, lempar error dengan pesan dari server
         throw new Error(data.message || 'Login gagal. Periksa kembali email dan password Anda.');
       }
 
       login(data);
-      navigate('/'); // Arahkan ke homepage setelah login berhasil
+      navigate('/'); 
     } catch (err: any) {
-      // Menangkap error dari network atau dari 'throw new Error' di atas
       setError(err.message);
     } finally {
         setIsLoading(false);
