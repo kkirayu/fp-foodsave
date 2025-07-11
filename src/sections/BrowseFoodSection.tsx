@@ -1,81 +1,98 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { FoodItem } from '../types/FoodItem';
 import Modal from '../components/Modal';
 import OrderForm from '../components/OrderForm';
 
-const foodItems: FoodItem[] = [
-  {
-    id: 'food1',
-    imageSrc: '/img/1.png',
-    imageAlt: 'Nasi Goreng Spesial dengan telur dan sayuran segar di piring putih',
-    title: 'Nasi Goreng Spesial',
-    description: 'Nasi goreng dengan telur, sayuran segar, dan bumbu khas Indonesia. Porsi 1 piring.',
-    price: 'Rp 15.000',
-    pickupTime: '20.00 - 21.00',
-    stock: 10, 
-  },
-  {
-    id: 'food2',
-    imageSrc: '/img/2.png',
-    imageAlt: 'Roti tawar gurih dengan selai stroberi merah segar di atas piring kayu',
-    title: 'Roti Tawar dengan Selai Stroberi',
-    description: 'Roti tawar lembut dengan selai stroberi manis, cocok untuk sarapan atau camilan.',
-    price: 'Rp 8.000',
-    pickupTime: '19.30 - 20.30',
-    stock: 10,
-  },
-  {
-    id: 'food3',
-    imageSrc: '/img/3.png',
-    imageAlt: 'Segelas es teh manis dengan daun mint segar dan es batu di gelas kaca bening',
-    title: 'Es Teh Manis Mint',
-    description: 'Minuman segar es teh manis dengan daun mint, cocok untuk melepas dahaga di siang hari.',
-    price: 'Rp 5.000',
-    pickupTime: '18.00 - 19.00',
-    stock: 10,
-  },
-  {
-    id: 'food4',
-    imageSrc: 'https://storage.googleapis.com/a1aa/image/72b4aef6-c5e2-4ceb-3918-4c71a2c4491e.jpg',
-    imageAlt: 'Kue lapis pelangi berwarna-warni dengan tekstur lembut di atas piring putih',
-    title: 'Kue Lapis Pelangi',
-    description: 'Kue lapis tradisional dengan warna-warni cerah dan rasa manis lembut, cocok untuk dessert.',
-    price: 'Rp 12.000',
-    pickupTime: '20.00 - 21.00',
-    stock: 10,
-  },
-  {
-    id: 'food5',
-    imageSrc: '/img/4.png',
-    imageAlt: 'Sepiring ayam goreng kremes dengan sambal pedas dan lalapan segar di piring putih',
-    title: 'Ayam Goreng Kremes',
-    description: 'Ayam goreng renyah dengan kremesan gurih dan sambal pedas, porsi lengkap dengan lalapan.',
-    price: 'Rp 20.000',
-    pickupTime: '19.00 - 20.00',
-    stock: 10,
-  },
-  {
-    id: 'food6',
-    imageSrc: '/img/5.png',
-    imageAlt: 'Mangkok salad buah segar berisi potongan melon, semangka, anggur, dan yogurt putih',
-    title: 'Salad Buah Segar',
-    description: 'Campuran buah segar dengan yogurt, cocok untuk camilan sehat dan menyegarkan.',
-    price: 'Rp 10.000',
-    pickupTime: '18.30 - 19.30',
-    stock: 10,
-  },
-];
-
+const API_BASE_URL = 'https://food-saver.kontrakita.web.id';
 
 const BrowseFoodSection: React.FC = () => {
+  const [allFoodItems, setAllFoodItems] = useState<FoodItem[]>([]);
+  const [filteredFoodItems, setFilteredFoodItems] = useState<FoodItem[]>([]); 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedFoodItem, setSelectedFoodItem] = useState<FoodItem | null>(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  const [categoryFilter, setCategoryFilter] = useState<string>('');
+  const [priceFilter, setPriceFilter] = useState<number | ''>('');
+  const [distanceFilter, setDistanceFilter] = useState<number | ''>(''); 
+
+  const applyFilters = useCallback(() => {
+    let tempItems = [...allFoodItems]; 
+
+    if (categoryFilter) {
+      tempItems = tempItems.filter(item => item.kategori.nama.toLowerCase() === categoryFilter.toLowerCase());
+    }
+
+    if (priceFilter !== '') {
+      tempItems = tempItems.filter(item => item.rawDiscountedPrice <= priceFilter);
+    }
+
+    if (distanceFilter !== '') {
+      console.log(`Filtering by distance (simulated): ${distanceFilter} km`);
+    }
+
+    setFilteredFoodItems(tempItems);
+  }, [allFoodItems, categoryFilter, priceFilter, distanceFilter]);
+
+  useEffect(() => {
+    const fetchFoodData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const apiUrl = `${API_BASE_URL}/api/v1/pembeli/makanan`;
+
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+
+        const apiFoodData = result; 
+
+        const formattedFoodItems: FoodItem[] = apiFoodData.map((item: any) => ({
+          id: item.id.toString(),
+          imageSrc: item.image && item.image.startsWith('/') ? `${API_BASE_URL}${item.image}` : item.image || 'https://placehold.co/400x250/E0F2F1/004D40?text=No+Image',
+          imageAlt: item.name,
+          title: item.name,
+          description: item.description,
+          price: `Rp ${item.discounted_price.toLocaleString('id-ID')}`,
+          originalPrice: item.original_price ? `Rp ${item.original_price.toLocaleString('id-ID')}` : undefined, 
+          rawDiscountedPrice: item.discounted_price,
+          rawOriginalPrice: item.original_price, 
+          pickupTime: `${item.start_time.substring(0, 5)} - ${item.end_time.substring(0, 5)}`,
+          stock: item.current_stock,
+          kategori: {
+            id: item.kategori.id,
+            nama: item.kategori.nama,
+          },
+          penjual: {
+            id: item.penjual.id,
+            nama_toko: item.penjual.nama_toko,
+            latitude: item.penjual.latitude,
+            longitude: item.penjual.longitude,
+          },
+        }));
+        setAllFoodItems(formattedFoodItems); 
+      } catch (e: any) {
+        setError(`Gagal mengambil data makanan: ${e.message}`);
+        console.error("Error fetching food data:", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFoodData();
+  }, []); 
+
+  useEffect(() => {
+    applyFilters();
+  }, [allFoodItems, applyFilters]); 
 
   const handleSubmitFilters = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Search filters submitted!');
   };
 
   const handleOrderClick = (item: FoodItem) => {
@@ -84,7 +101,7 @@ const BrowseFoodSection: React.FC = () => {
   };
 
   const handlePlaceOrder = (item: FoodItem, quantity: number, notes: string) => {
-    console.log('Order Placed:', { item, quantity, notes });
+    console.log('Pesanan Ditempatkan:', { item, quantity, notes });
     setIsModalOpen(false);
     setSelectedFoodItem(null);
 
@@ -95,7 +112,7 @@ const BrowseFoodSection: React.FC = () => {
           quantity,
           notes,
           totalPrice: parseFloat(item.price.replace('Rp ', '').replace('.', '')) * quantity,
-          orderId: `ORD-${Date.now()}`, 
+          orderId: `ORD-${Date.now()}`,
         },
       },
     });
@@ -128,13 +145,16 @@ const BrowseFoodSection: React.FC = () => {
                 className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
                 id="category"
                 name="category"
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
               >
                 <option value="">Semua Kategori</option>
-                <option value="indonesian">Masakan Indonesia</option>
-                <option value="dessert">Dessert</option>
-                <option value="bread">Roti &amp; Kue</option>
-                <option value="beverages">Minuman</option>
-                <option value="fastfood">Fast Food</option>
+                <option value="Makanan Ringan">Makanan Ringan</option>
+                <option value="Makanan Berat">Makanan Berat</option>
+                <option value="Dessert">Dessert</option>
+                <option value="Roti & Kue">Roti &amp; Kue</option>
+                <option value="Minuman">Minuman</option>
+                <option value="Fast Food">Fast Food</option>
               </select>
             </div>
             <div>
@@ -150,6 +170,8 @@ const BrowseFoodSection: React.FC = () => {
                 name="price"
                 placeholder="Contoh: 25000"
                 type="number"
+                value={priceFilter}
+                onChange={(e) => setPriceFilter(parseFloat(e.target.value) || '')}
               />
             </div>
             <div>
@@ -165,6 +187,8 @@ const BrowseFoodSection: React.FC = () => {
                 name="distance"
                 placeholder="Contoh: 5"
                 type="number"
+                value={distanceFilter}
+                onChange={(e) => setDistanceFilter(parseFloat(e.target.value) || '')}
               />
             </div>
             <button
@@ -176,7 +200,24 @@ const BrowseFoodSection: React.FC = () => {
           </form>
         </aside>
         <section className="md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {foodItems.map((item) => (
+          {loading && (
+            <div className="col-span-full text-center py-10">
+              <i className="fas fa-spinner fa-spin text-green-600 text-4xl mb-4"></i>
+              <p className="text-gray-700">Memuat makanan...</p>
+            </div>
+          )}
+          {error && (
+            <div className="col-span-full text-center py-10 text-red-600">
+              <p>{error}</p>
+              <p>Silakan coba refresh halaman.</p>
+            </div>
+          )}
+          {!loading && !error && filteredFoodItems.length === 0 && (
+            <div className="col-span-full text-center py-10 text-gray-600">
+              <p>Tidak ada makanan yang ditemukan dengan kriteria ini.</p>
+            </div>
+          )}
+          {!loading && !error && allFoodItems.length > 0 && filteredFoodItems.map((item) => (
             <article
               key={item.id}
               className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
@@ -188,31 +229,37 @@ const BrowseFoodSection: React.FC = () => {
                 loading="lazy"
                 src={item.imageSrc}
                 width="400"
+                onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x250/E0F2F1/004D40?text=No+Image'; }} // Fallback on error
               />
               <div className="p-4 flex flex-col flex-grow">
                 <h4 className="text-lg font-semibold text-green-800 mb-1">
                   {item.title}
                 </h4>
-                <p className="text-gray-600 flex-grow">{item.description}</p>
+                <p className="text-gray-600 flex-grow text-sm">
+                  {item.description}
+                </p>
                 <div className="mt-3 flex items-center justify-between">
                   <span className="text-green-700 font-bold text-lg">
                     {item.price}
+                    {item.originalPrice && (
+                      <span className="ml-2 text-gray-500 line-through text-sm">
+                        {item.originalPrice}
+                      </span>
+                    )}
                   </span>
                   <span className="text-sm text-gray-500">
                     Ambil: {item.pickupTime}
                   </span>
-                   
                 </div>
-                <div className='text-gray-600'>
-                  <span className="text-sm text-gray-500">
-                    Stok: {item.stock}
-                  </span>
+                <div className="text-sm text-gray-500 mt-1">
+                  Stok: {item.stock}
                 </div>
                 <button
-                  className="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition"
+                  className="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => handleOrderClick(item)}
+                  disabled={item.stock <= 0}
                 >
-                  Pesan Sekarang
+                  {item.stock > 0 ? 'Pesan Sekarang' : 'Stok Habis'}
                 </button>
               </div>
             </article>
