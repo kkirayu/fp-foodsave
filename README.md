@@ -35,21 +35,13 @@ Tidak hanya sebagai marketplace, Food Saver juga berperan sebagai media edukasi 
 Untuk mempermudah juri/penguji, kami telah menyediakan prototipe yang dapat diakses secara online serta akun demo.
 
 - **Link Demo**: `https://foodsave-two.vercel.app/`
-- **Link Dashboard Penjual**: `https://foodsave-two.vercel.app/penjual`
-- **Link Postman / Dokumentasi API** : `[On Progress]`
+- **Link Dashboard Penjual**: `https://food-saver.kontrakita.web.id/penjual/login`
+- **Link Dashboard Penjual**: `https://food-saver.kontrakita.web.id/admin/login`
+- **Link Postman / Dokumentasi API** : `https://cloudyin.postman.co/workspace/AMCC~3f17fbe0-d797-450f-a0ed-535514ecdf89/collection/19577056-07e966cf-c7d0-4598-9fce-0ef459bd8c2e?action=share&creator=19577056&active-environment=19577056-fef4b137-0b32-4c71-9df5-0e295db63609`
 
 
 ---
 
-## ✨ Tampilan Web
-
-<p align="center">
-  <img src="README-assets/1.png" width="200" alt="Halaman Dashboard">
-  <img src="README-assets/2.png" width="200" alt="Halaman Dashboard">
-  <img src="README-assets/3.png" width="200" alt="Halaman landing Pages">
-</p>
-
----
 
 ## 📝 Status Prototipe
 
@@ -62,9 +54,8 @@ Repositori ini berisi prototipe untuk proyek final. Tidak semua fitur yang terca
 - [x] Pemesanan
 - [x] Manajemen Makanan bagi penjual
 - [x] Daftar Sebagai penjual
-- [ ] Login & Register
-- [ ] Dashboard Admin
-- [ ] Maps
+- [x] Login & Register
+- [x] Dashboard Admin
 
 ---
 
@@ -86,7 +77,7 @@ Berikut adalah fitur-fitur yang kami rencanakan untuk Seimbang.in:
 ## 🛠️ Tech Stack
 
 - **Frontend**: `[React, TypeScript]`
-- **Backend**: `[Laravel (On progress)]`
+- **Backend**: `[Laravel], 'https://github.com/Funazu/food-saver.git'`
 - **Database**: `[Mysql]`
 - **Lainnya**: `[TailwindCSS, Filament]`
 
