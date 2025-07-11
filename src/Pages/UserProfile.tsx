@@ -4,7 +4,8 @@ import Modal from '../components/Modal';
 import EditBiodataForm from '../components/EditBiodataForm';
 import { useAuth } from '../context/AuthContext';
 import type { Pembeli } from '../types/Pembeli';
-import type { Pesanan } from '../types/Order'; 
+import type { Pesanan } from '../types/Order';
+import type { FoodItem } from '../types/FoodItem'; // Import FoodItem
 
 interface UserData {
   fullName: string;
@@ -30,48 +31,59 @@ const UserProfilePage: React.FC = () => {
   const [activeOrders, setActiveOrders] = useState<Pesanan[]>([]);
   const [orderHistory, setOrderHistory] = useState<Pesanan[]>([]);
   const [isOrdersLoading, setIsOrdersLoading] = useState<boolean>(true);
+  const [allFoodItems, setAllFoodItems] = useState<FoodItem[]>([]); // State untuk semua makanan
 
 
   useEffect(() => {
-    if (pembeli && user) {
-      setUserData({
-        fullName: pembeli.nama,
-        email: user.email,
-        phone: pembeli.no_telepon,
-        address: pembeli.alamat,
-        profilePic: `https://food-saver.kontrakita.web.id/storage/${pembeli.foto_profil}` || 'https://placehold.co/120x120/A5D6A7/2E7D32?text=User',
-      });
-
-      const fetchOrders = async () => {
+    if (user && token) {
+      const fetchAllData = async () => {
         setIsOrdersLoading(true);
         try {
-          const response = await fetch(`https://food-saver.kontrakita.web.id/api/v1/pembeli/pesanan`, {
-             headers: {
-                'Authorization': `Bearer ${token}`
-             }
-          });
-          if (!response.ok) {
-            throw new Error('Gagal mengambil data pesanan');
+          if (pembeli) {
+              setUserData({
+                fullName: pembeli.nama,
+                email: user.email,
+                phone: pembeli.no_telepon,
+                address: pembeli.alamat,
+                profilePic: pembeli.foto_profil ? `https://food-saver.kontrakita.web.id${pembeli.foto_profil}` : 'https://placehold.co/120x120/A5D6A7/2E7D32?text=User',
+              });
           }
-          const allOrders: Pesanan[] = await response.json();
+
+          const foodResponse = await fetch('https://food-saver.kontrakita.web.id/api/v1/pembeli/makanan');
+          if (!foodResponse.ok) throw new Error('Gagal memuat data makanan.');
+          const foodData = await foodResponse.json();
+          const allFoods = Array.isArray(foodData) ? foodData : [];
+          setAllFoodItems(allFoods);
           
-          const active = allOrders.filter(order => 
-            ['pending', 'confirmed', 'siap_diambil'].includes(order.status)
+          const ordersResponse = await fetch(`https://food-saver.kontrakita.web.id/api/v1/pembeli/pesanan`, {
+             headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (!ordersResponse.ok) throw new Error('Gagal mengambil data pesanan');
+          const allOrdersData: Omit<Pesanan, 'makanan'>[] = await ordersResponse.json();
+          
+          const combinedOrders = allOrdersData.map(order => {
+              const makanan = allFoods.find(food => food.id === order.makanan_id);
+              return { ...order, makanan: makanan || null };
+          }).filter((order): order is Pesanan => order.makanan !== null);
+
+          const active = combinedOrders.filter(order => 
+            ['pending', 'dikonfirmasi', 'siap_diambil'].includes(order.status)
           );
-          const history = allOrders.filter(order => 
+          const history = combinedOrders.filter(order => 
             ['sudah_diambil', 'dibatalkan_pembeli', 'dibatalkan_penjual'].includes(order.status)
           );
 
           setActiveOrders(active);
           setOrderHistory(history);
+
         } catch (error) {
-          console.error("Error fetching orders:", error);
+          console.error("Error fetching data:", error);
         } finally {
           setIsOrdersLoading(false);
         }
       };
 
-      fetchOrders();
+      fetchAllData();
     }
   }, [pembeli, user, token]);
 
@@ -84,8 +96,8 @@ const UserProfilePage: React.FC = () => {
     const getStatusBadge = (status: Pesanan['status']) => {
         const styles: { [key in Pesanan['status']]: string } = {
             pending: 'bg-yellow-100 text-yellow-800',
-            confirmed: 'bg-blue-100 text-blue-800',
-            siap_diambil: 'bg-blue-100 text-blue-800',
+            dikonfirmasi: 'bg-blue-100 text-blue-800', 
+            siap_diambil: 'bg-indigo-100 text-indigo-800',
             sudah_diambil: 'bg-green-100 text-green-800',
             dibatalkan_pembeli: 'bg-red-100 text-red-800',
             dibatalkan_penjual: 'bg-red-100 text-red-800',
@@ -109,10 +121,15 @@ const UserProfilePage: React.FC = () => {
               <div className="space-y-4">
                 {activeOrders.map((order) => (
                   <div key={order.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                    <p className="font-semibold text-lg">{order.makanan.name} ({order.quantity}x)</p>
-                    <p className="text-gray-600">ID Pesanan: {order.unique_code}</p>
-                    <p className="text-gray-600">Status: <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(order.status)}`}>{order.status.replace(/_/g, ' ')}</span></p>
-                    <p className="text-gray-600">Waktu Pengambilan: {new Date(order.pickup_date).toLocaleString('id-ID')}</p>
+                    <div className="flex items-start space-x-4">
+                        <img src={`https://food-saver.kontrakita.web.id${order.makanan.image}`} alt={order.makanan.name} className="w-20 h-20 object-cover rounded-md"/>
+                        <div>
+                            <p className="font-semibold text-lg">{order.makanan.name} ({order.quantity}x)</p>
+                            <p className="text-gray-600 text-sm">Kode Pesanan: {order.unique_code}</p>
+                            <p className="text-gray-600 text-sm">Status: <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(order.status)}`}>{order.status.replace(/_/g, ' ')}</span></p>
+                            <p className="text-gray-600 text-sm">Waktu Pengambilan: {new Date(order.pickup_date).toLocaleString('id-ID')}</p>
+                        </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -130,10 +147,15 @@ const UserProfilePage: React.FC = () => {
               <div className="space-y-4">
                 {orderHistory.map((order) => (
                   <div key={order.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                    <p className="font-semibold text-lg">{order.makanan.name} ({order.quantity}x)</p>
-                    <p className="text-gray-600">ID Pesanan: {order.unique_code}</p>
-                     <p className={`text-gray-600`}>Status: <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(order.status)}`}>{order.status.replace(/_/g, ' ')}</span></p>
-                    <p className="text-gray-600">Tanggal: {new Date(order.pickup_date).toLocaleString('id-ID')}</p>
+                     <div className="flex items-start space-x-4">
+                        <img src={`https://food-saver.kontrakita.web.id${order.makanan.image}`} alt={order.makanan.name} className="w-20 h-20 object-cover rounded-md"/>
+                        <div>
+                            <p className="font-semibold text-lg">{order.makanan.name} ({order.quantity}x)</p>
+                            <p className="text-gray-600 text-sm">Kode Pesanan: {order.unique_code}</p>
+                            <p className={`text-gray-600 text-sm`}>Status: <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(order.status)}`}>{order.status.replace(/_/g, ' ')}</span></p>
+                            <p className="text-gray-600 text-sm">Tanggal: {new Date(order.pickup_date).toLocaleString('id-ID')}</p>
+                        </div>
+                    </div>
                   </div>
                 ))}
               </div>
