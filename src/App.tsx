@@ -13,10 +13,6 @@ import UserProfilePage from "./Pages/UserProfile";
 import ScrollToTop from "./components/ScrollToTop";
 import SellerRegistrationPage from "./Pages/SellerRegistrationPage";
 import EmailVerificationPage from "./components/EmailVerificationPage";
-import DashboardOverview from "./sections/DashboardOverview";
-import ProductManagement from "./sections/ProductManagement";
-import OrderApproval from "./sections/OrderApproval";
-import SellerDashboardPage from "./Pages/SellerDashboardPage";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";  
 import OrderPage from "./Pages/OrderPage";
@@ -52,11 +48,6 @@ const App: React.FC = () => {
         </Route>
         <Route path="/invoice" element={<Layout />}>
           <Route index element={<InvoicePage />} />
-        </Route>
-         <Route path="/penjual" element={<SellerDashboardPage />}> 
-          <Route index element={<DashboardOverview />} />
-          <Route path="-p-makanan" element={<ProductManagement />} />
-          <Route path="-p-pesanan" element={<OrderApproval />} />
         </Route>
       </Routes>
       </AuthProvider>
