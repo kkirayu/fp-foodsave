@@ -14,6 +14,8 @@ interface UserData {
   profilePic: string;
 }
 
+const API_BASE_URL = 'https://food-saver.kontrakita.web.id';
+
 const UserProfilePage: React.FC = () => {
   const { user, pembeli, isLoading, token } = useAuth();
   const [activeTab, setActiveTab] = useState<'orders' | 'history' | 'biodata' | 'privacy'>('orders');
@@ -30,7 +32,7 @@ const UserProfilePage: React.FC = () => {
   const [activeOrders, setActiveOrders] = useState<Pesanan[]>([]);
   const [orderHistory, setOrderHistory] = useState<Pesanan[]>([]);
   const [isOrdersLoading, setIsOrdersLoading] = useState<boolean>(true);
-  const [allFoodItems, setAllFoodItems] = useState<FoodItem[]>([]); 
+  const [allFoodItems, setAllFoodItems] = useState<FoodItem[]>([]); // State untuk semua makanan
 
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const UserProfilePage: React.FC = () => {
                 email: user.email,
                 phone: pembeli.no_telepon,
                 address: pembeli.alamat,
-                profilePic: pembeli.foto_profil ? `https://food-saver.kontrakita.web.id${pembeli.foto_profil}` : 'https://placehold.co/120x120/A5D6A7/2E7D32?text=User',
+                profilePic: pembeli?.foto_profil ? `${API_BASE_URL}/storage/${pembeli.foto_profil}` : 'https://placehold.co/120x120/A5D6A7/2E7D32?text=User',
               });
           }
 
