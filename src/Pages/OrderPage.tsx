@@ -1,5 +1,3 @@
-// src/Pages/OrderPage.tsx
-
 import React, { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import type { Pesanan } from '../types/Order';
@@ -56,9 +54,14 @@ const OrderPage = () => {
         });
         return combined.filter((order): order is Pesanan => order.makanan !== null);
     }, [orders, allFoodItems]);
+
     const { activeOrders, historyOrders } = useMemo((): { activeOrders: Pesanan[]; historyOrders: Pesanan[] } => {
-        const active = ordersWithFoodDetails.filter(o => ['pending', 'dikonfirmasi'].includes(o.status));
-        const history = ordersWithFoodDetails.filter(o => ['sudah_diambil', 'dibatalkan_pembeli', 'dibatalkan_penjual'].includes(o.status));
+        const active = ordersWithFoodDetails.filter(o => 
+            ['pending', 'dikonfirmasi', 'siap_diambil'].includes(o.status)
+        );
+        const history = ordersWithFoodDetails.filter(o => 
+            ['sudah_diambil', 'dibatalkan_pembeli', 'dibatalkan_penjual'].includes(o.status)
+        );
         return { activeOrders: active, historyOrders: history };
     }, [ordersWithFoodDetails]);
 
@@ -103,6 +106,7 @@ const OrderPage = () => {
         const styles: { [key: string]: string } = {
             pending: 'bg-yellow-100 text-yellow-800',
             dikonfirmasi: 'bg-blue-100 text-blue-800',
+            siap_diambil: 'bg-indigo-100 text-indigo-800',
             sudah_diambil: 'bg-green-100 text-green-800',
             dibatalkan_pembeli: 'bg-red-100 text-red-800',
             dibatalkan_penjual: 'bg-red-100 text-red-800',
