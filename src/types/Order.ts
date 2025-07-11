@@ -13,7 +13,7 @@ export interface Pesanan {
     makanan_id: number;
     quantity: number;
     total_price: number;
-    status: 'pending' | 'confirmed' | 'sudah_diambil' | 'dibatalkan_pembeli' | 'dibatalkan_penjual';
+    status: 'pending' | 'dikonfirmasi' |  'siap_diambil' |'sudah_diambil' | 'dibatalkan_pembeli' | 'dibatalkan_penjual';
     order_date: string;
     pickup_date: string;
     payment_method: string;
