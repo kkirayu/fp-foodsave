@@ -207,6 +207,7 @@ const CariMakanan = () => {
                     key={item.id}
                     className={`bg-white rounded-lg shadow-md overflow-hidden flex flex-col transform transition-transform duration-300 ${isAvailable ? 'hover:-translate-y-1' : ''}`}
                   >
+                    
                     <div className="relative">
                       <img
                         alt={item.name}
@@ -226,6 +227,9 @@ const CariMakanan = () => {
                       <h4 className="text-lg font-semibold text-green-800 mb-1">
                         {item.name}
                       </h4>
+                      <h5 className="  text-grey-800 mb-1">
+                        {item.penjual.nama_toko}
+                      </h5>
                       <p className="text-gray-600 flex-grow text-sm">
                         {item.description}
                       </p>
