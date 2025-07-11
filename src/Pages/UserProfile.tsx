@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '../components/Modal';
-import EditBiodataForm from '../components/EditBiodataForm'; 
+import EditBiodataForm from '../components/EditBiodataForm';
+import { useAuth } from '../context/AuthContext';
+import type { Pembeli } from '../types/Pembeli';
+import type { User } from '../types/User';
+
+// Asumsi tipe data untuk Pesanan
+interface Pesanan {
+  id: string;
+  item: string; // Anda mungkin perlu menyesuaikan ini, misalnya dengan relasi ke produk
+  quantity: number;
+  status: 'Menunggu Pengambilan' | 'Siap Diambil' | 'Selesai' | 'Dibatalkan';
+  pickupTime: string; // Sebaiknya gunakan tipe Date atau string ISO
+}
 
 interface UserData {
   fullName: string;
@@ -12,46 +24,92 @@ interface UserData {
 }
 
 const UserProfilePage: React.FC = () => {
+  const { user, pembeli, isLoading, token } = useAuth();
   const [activeTab, setActiveTab] = useState<'orders' | 'history' | 'biodata' | 'privacy'>('orders');
   const [isEditBiodataModalOpen, setIsEditBiodataModalOpen] = useState<boolean>(false);
+  
   const [userData, setUserData] = useState<UserData>({
-    fullName: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+62 812 3456 7890',
-    address: 'Jl. Contoh No. 45, Jakarta',
-    profilePic: 'https://placehold.co/120x120/A5D6A7/2E7D32?text=User', 
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    profilePic: 'https://placehold.co/120x120/A5D6A7/2E7D32?text=User',
   });
 
-  const dummyOrders = [
-    { id: 'ORD001', item: 'Nasi Goreng Spesial', quantity: 1, status: 'Menunggu Pengambilan', pickupTime: 'Hari ini, 20:00' },
-    { id: 'ORD002', item: 'Roti Tawar', quantity: 2, status: 'Siap Diambil', pickupTime: 'Hari ini, 19:30' },
-  ];
+  const [activeOrders, setActiveOrders] = useState<Pesanan[]>([]);
+  const [orderHistory, setOrderHistory] = useState<Pesanan[]>([]);
+  const [isOrdersLoading, setIsOrdersLoading] = useState<boolean>(true);
 
-  const dummyOrderHistory = [
-    { id: 'ORD000', item: 'Es Teh Manis Mint', quantity: 1, status: 'Selesai', pickupTime: '2024-06-28, 18:00' },
-    { id: 'ORD003', item: 'Kue Lapis Pelangi', quantity: 1, status: 'Selesai', pickupTime: '2024-06-27, 20:00' },
-  ];
+
+  useEffect(() => {
+    if (pembeli && user) {
+      setUserData({
+        fullName: pembeli.nama,
+        email: user.email,
+        phone: pembeli.no_telepon,
+        address: pembeli.alamat,
+        profilePic: `https://food-saver.kontrakita.web.id/storage/${pembeli.foto_profil}` || 'https://placehold.co/120x120/A5D6A7/2E7D32?text=User',
+      });
+
+      const fetchOrders = async () => {
+        if (!pembeli.id) return;
+        setIsOrdersLoading(true);
+        try {
+          const response = await fetch(`https://food-saver.kontrakita.web.id/api/pesanan/pembeli/${pembeli.id}`, {
+             headers: {
+                'Authorization': `Bearer ${token}`
+             }
+          });
+          if (!response.ok) {
+            throw new Error('Gagal mengambil data pesanan');
+          }
+          const allOrders: Pesanan[] = await response.json();
+
+          const active = allOrders.filter(order => 
+            order.status === 'Menunggu Pengambilan' || order.status === 'Siap Diambil'
+          );
+          const history = allOrders.filter(order => 
+            order.status === 'Selesai' || order.status === 'Dibatalkan'
+          );
+
+          setActiveOrders(active);
+          setOrderHistory(history);
+        } catch (error) {
+          console.error("Error fetching orders:", error);
+        } finally {
+          setIsOrdersLoading(false);
+        }
+      };
+
+      fetchOrders();
+    }
+  }, [pembeli, user, token]);
 
   const handleSaveBiodata = (newData: UserData) => {
     setUserData(newData);
     setIsEditBiodataModalOpen(false);
-    alert('Biodata berhasil diperbarui!'); 
+    alert('Biodata berhasil diperbarui!');
   };
 
   const renderContent = () => {
+    if (isLoading) {
+      return <p className="text-center">Loading...</p>;
+    }
+
     switch (activeTab) {
       case 'orders':
+        if (isOrdersLoading) return <p className="text-center">Memuat pesanan...</p>;
         return (
           <div>
             <h3 className="text-2xl font-semibold text-green-700 mb-4">Daftar Pesanan Aktif</h3>
-            {dummyOrders.length > 0 ? (
+            {activeOrders.length > 0 ? (
               <div className="space-y-4">
-                {dummyOrders.map((order) => (
+                {activeOrders.map((order) => (
                   <div key={order.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <p className="font-semibold text-lg">{order.item} ({order.quantity}x)</p>
                     <p className="text-gray-600">ID Pesanan: {order.id}</p>
                     <p className="text-gray-600">Status: <span className={`font-medium ${order.status === 'Siap Diambil' ? 'text-green-600' : 'text-blue-600'}`}>{order.status}</span></p>
-                    <p className="text-gray-600">Waktu Pengambilan: {order.pickupTime}</p>
+                    <p className="text-gray-600">Waktu Pengambilan: {new Date(order.pickupTime).toLocaleString('id-ID')}</p>
                   </div>
                 ))}
               </div>
@@ -61,17 +119,18 @@ const UserProfilePage: React.FC = () => {
           </div>
         );
       case 'history':
+        if (isOrdersLoading) return <p className="text-center">Memuat riwayat...</p>;
         return (
           <div>
             <h3 className="text-2xl font-semibold text-green-700 mb-4">Riwayat Pesanan</h3>
-            {dummyOrderHistory.length > 0 ? (
+            {orderHistory.length > 0 ? (
               <div className="space-y-4">
-                {dummyOrderHistory.map((order) => (
+                {orderHistory.map((order) => (
                   <div key={order.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <p className="font-semibold text-lg">{order.item} ({order.quantity}x)</p>
                     <p className="text-gray-600">ID Pesanan: {order.id}</p>
-                    <p className="text-gray-600">Status: <span className="font-medium text-gray-500">{order.status}</span></p>
-                    <p className="text-gray-600">Tanggal: {order.pickupTime}</p>
+                    <p className={`text-gray-600`}>Status: <span className={`font-medium ${order.status === 'Dibatalkan' ? 'text-red-600' : 'text-gray-500'}`}>{order.status}</span></p>
+                    <p className="text-gray-600">Tanggal: {new Date(order.pickupTime).toLocaleString('id-ID')}</p>
                   </div>
                 ))}
               </div>
@@ -80,7 +139,7 @@ const UserProfilePage: React.FC = () => {
             )}
           </div>
         );
-      case 'biodata':
+       case 'biodata':
         return (
           <div>
             <h3 className="text-2xl font-semibold text-green-700 mb-4">Biodata Pengguna</h3>
@@ -90,7 +149,7 @@ const UserProfilePage: React.FC = () => {
               <p className="text-gray-700"><strong>Nomor Telepon:</strong> {userData.phone}</p>
               <p className="text-gray-700"><strong>Alamat:</strong> {userData.address}</p>
               <button
-                onClick={() => setIsEditBiodataModalOpen(true)} 
+                onClick={() => setIsEditBiodataModalOpen(true)}
                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition"
               >
                 Edit Biodata
@@ -129,13 +188,15 @@ const UserProfilePage: React.FC = () => {
     <section className="py-16 px-6 md:px-12 bg-gray-50 min-h-[calc(100vh-160px)]">
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-xl p-8 md:p-10">
         <h2 className="text-4xl font-bold text-center text-green-700 mb-4">Profil Pengguna</h2>
-        
-        <div className="flex justify-center mb-8">
+
+        <div className="flex flex-col items-center mb-8">
           <img
-            src={userData.profilePic} 
+            src={userData.profilePic}
             alt="Foto Profil Pengguna"
             className="w-32 h-32 rounded-full object-cover border-4 border-green-300 shadow-md"
+            onError={(e) => { e.currentTarget.src = 'https://placehold.co/120x120/A5D6A7/2E7D32?text=User'; }}
           />
+          <h3 className="text-2xl font-bold mt-4 text-green-800">{userData.fullName}</h3>
         </div>
 
         <div className="flex flex-col md:flex-row md:space-x-8">
