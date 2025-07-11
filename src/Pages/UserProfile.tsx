@@ -6,13 +6,12 @@ import { useAuth } from '../context/AuthContext';
 import type { Pembeli } from '../types/Pembeli';
 import type { User } from '../types/User';
 
-// Asumsi tipe data untuk Pesanan
 interface Pesanan {
   id: string;
-  item: string; // Anda mungkin perlu menyesuaikan ini, misalnya dengan relasi ke produk
+  item: string; 
   quantity: number;
   status: 'Menunggu Pengambilan' | 'Siap Diambil' | 'Selesai' | 'Dibatalkan';
-  pickupTime: string; // Sebaiknya gunakan tipe Date atau string ISO
+  pickupTime: string; 
 }
 
 interface UserData {
