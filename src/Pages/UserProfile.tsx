@@ -5,8 +5,7 @@ import EditBiodataForm from '../components/EditBiodataForm';
 import { useAuth } from '../context/AuthContext';
 import type { Pembeli } from '../types/Pembeli';
 import type { Pesanan } from '../types/Order';
-import type { FoodItem } from '../types/FoodItem'; // Import FoodItem
-
+import type { FoodItem } from '../types/FoodItem';
 interface UserData {
   fullName: string;
   email: string;
@@ -31,7 +30,7 @@ const UserProfilePage: React.FC = () => {
   const [activeOrders, setActiveOrders] = useState<Pesanan[]>([]);
   const [orderHistory, setOrderHistory] = useState<Pesanan[]>([]);
   const [isOrdersLoading, setIsOrdersLoading] = useState<boolean>(true);
-  const [allFoodItems, setAllFoodItems] = useState<FoodItem[]>([]); // State untuk semua makanan
+  const [allFoodItems, setAllFoodItems] = useState<FoodItem[]>([]); 
 
 
   useEffect(() => {
