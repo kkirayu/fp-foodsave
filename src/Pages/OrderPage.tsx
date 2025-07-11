@@ -197,7 +197,7 @@ const OrderPage = () => {
       return;
     try {
       const response = await fetch(
-        `https://food-saver.kontrakita.web.id/api/v1/pembeli/pesanan/${orderId}/batalkan`,
+        `https://food-saver.kontrakita.web.id/api/v1/pembeli/pesanan/${orderId}/batal`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
