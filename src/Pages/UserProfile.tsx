@@ -252,14 +252,6 @@ const UserProfilePage: React.FC = () => {
               >
                 Biodata
               </button>
-              <button
-                onClick={() => setActiveTab('privacy')}
-                className={`py-3 px-4 rounded-lg text-left font-semibold transition ${
-                  activeTab === 'privacy' ? 'bg-green-600 text-white shadow' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Privasi
-              </button>
             </nav>
           </aside>
 
