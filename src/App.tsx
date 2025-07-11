@@ -17,11 +17,18 @@ import DashboardOverview from "./sections/DashboardOverview";
 import ProductManagement from "./sections/ProductManagement";
 import OrderApproval from "./sections/OrderApproval";
 import SellerDashboardPage from "./Pages/SellerDashboardPage";
+import LoginPage from "./Pages/LoginPage";
+import RegisterPage from "./Pages/RegisterPage";  
+import OrderPage from "./Pages/OrderPage";
+import { AuthProvider } from "./context/AuthContext";
+import FoodDetailPage from "./Pages/FoodDetailPage";
+
 
 const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
+      <AuthProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -31,12 +38,16 @@ const App: React.FC = () => {
           <Route path="profil" element={<UserProfilePage />} />{" "}
           <Route path="regis-penjual" element={<SellerRegistrationPage />} />
           <Route path="verifikasi-email" element={<EmailVerificationPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+             <Route path="makanan/:id" element={<FoodDetailPage />} />
+            <Route path="pesanan" element={<OrderPage />} />
         </Route>
         <Route path="/makanan" element={<Layout />}>
           <Route index element={<CariMakanan />} />
           <Route path="browse" element={<BrowseFoodPage />} />
         </Route>
-        <Route path="/pembayaran" element={<Layout />}>
+        <Route path="/payment" element={<Layout />}>
           <Route index element={<PaymentPage />} />
         </Route>
         <Route path="/invoice" element={<Layout />}>
@@ -48,6 +59,7 @@ const App: React.FC = () => {
           <Route path="-p-pesanan" element={<OrderApproval />} />
         </Route>
       </Routes>
+      </AuthProvider>
     </Router>
   );
 };

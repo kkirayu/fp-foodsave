@@ -23,10 +23,10 @@ const OrderForm: React.FC<OrderFormProps> = ({ foodItem, onPlaceOrder, onCancel 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <h4 className="text-xl font-semibold text-green-800">{foodItem.title}</h4>
+        <h4 className="text-xl font-semibold text-green-800">{foodItem.name}</h4>
         <p className="text-gray-600 text-sm">{foodItem.description}</p>
-        <p className="text-green-700 font-bold text-lg mt-2">{foodItem.price}</p>
-        <p className="text-gray-500 text-sm">Waktu Ambil: {foodItem.pickupTime}</p>
+        <p className="text-green-700 font-bold text-lg mt-2">{foodItem.discounted_price}</p>
+        <p className="text-gray-500 text-sm">Waktu Ambil: {foodItem.start_time}</p>
       </div>
 
       <div>

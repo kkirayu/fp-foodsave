@@ -1,90 +1,99 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const Header: React.FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const Header = () => {
+    const { isAuthenticated, user, logout } = useAuth();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const navigate = useNavigate();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+    const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+    const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  return (
-    <header className="bg-white shadow sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <a
-          className="text-2xl font-bold text-green-600 flex items-center space-x-2"
-          href="/"
-        >
-          <img
-            alt="Logo FoodSaver berupa ikon piring dengan daun hijau di atasnya"
-            className="w-10 h-10"
-            height="40"
-            src="/img/logo.png"
-            width="40"
-          />
-          <span> FoodSaver </span>
-        </a>
-        <nav className="hidden md:flex space-x-8 font-semibold text-gray-700">
-          <a className="hover:text-green-600 transition" href="cara-kerja">
-            Cara Kerja
-          </a>
-          <Link className="hover:text-green-600 transition" to="/makanan">
-            Cari Makanan
-          </Link>
-          <a className="hover:text-green-600 transition" href="profil"> 
-            Profile
-          </a>
-          <a className="hover:text-green-600 transition" href="/komunitas">
-            Komunitas
-          </a>
-        </nav>
-        <div className="md:hidden">
-          <button
-            aria-label="Toggle menu"
-            className="text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-600"
-            onClick={toggleMobileMenu}
-          >
-            <i className="fas fa-bars fa-lg"> </i>
-          </button>
-        </div>
-      </div>
-      <nav
-        className={`bg-white border-t border-gray-200 md:hidden ${
-          isMobileMenuOpen ? 'block' : 'hidden'
-        }`}
-        id="mobile-menu"
-      >
-        <a
-          className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
-          href="cara-kerja"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Cara Kerja
-        </a>
-        <Link
-          className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
-          to="/makanan"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Cari Makanan
-        </Link>
-        <a
-          className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
-          href="profil"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Profile
-        </a>
-        <a
-          className="block px-4 py-3 border-b border-gray-200 hover:bg-green-50"
-          href="/komunitas"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Komunitas
-        </a>
-      </nav>
-    </header>
-  );
+    const handleLogout = () => {
+        logout();
+        setIsDropdownOpen(false);
+        closeMobileMenu();
+        navigate('/');
+    };
+
+    const activeLink = 'text-green-600 font-semibold';
+    const normalLink = 'hover:text-green-600 transition-colors duration-300';
+
+    const navLinks = (
+        <>
+            <NavLink to="/" className={({ isActive }) => isActive ? activeLink : normalLink} onClick={closeMobileMenu}>Home</NavLink>
+            <NavLink to="/makanan" className={({ isActive }) => isActive ? activeLink : normalLink} onClick={closeMobileMenu}>Cari Makanan</NavLink>
+            <NavLink to="/cara-kerja" className={({ isActive }) => isActive ? activeLink : normalLink} onClick={closeMobileMenu}>Cara Kerja</NavLink>
+            <NavLink to="/komunitas" className={({ isActive }) => isActive ? activeLink : normalLink} onClick={closeMobileMenu}>Community</NavLink>
+        </>
+    );
+
+    return (
+        <header className="bg-white shadow-md sticky top-0 z-50">
+            <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+                <Link to="/" className="text-2xl font-bold text-green-600 flex items-center space-x-2">
+                    <img alt="Logo FoodSaver" className="w-9 h-9" src="/img/logo.png" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    <span>FoodSaver</span>
+                </Link>
+                <nav className="hidden md:flex items-center space-x-6 text-gray-700 font-medium">
+                    {navLinks}
+                </nav>
+                <div className="hidden md:flex items-center space-x-4">
+                    {isAuthenticated && user ? (
+                        <div className="relative">
+                            <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center space-x-2 focus:outline-none">
+                                <span className="font-medium text-gray-700">{user.name}</span>
+                            </button>
+                            {isDropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5" onMouseLeave={() => setIsDropdownOpen(false)}>
+                                    <Link to="/profil" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onClick={() => setIsDropdownOpen(false)}>Profil Saya</Link>
+                                    <Link to="/pesanan" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onClick={() => setIsDropdownOpen(false)}>Pesanan & Riwayat</Link>
+                                    <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <Link to="/login" className="bg-green-500 text-white px-5 py-2 rounded-full hover:bg-green-600 transition-colors duration-300 font-semibold">
+                            Login
+                        </Link>
+                    )}
+                </div>
+                <div className="md:hidden">
+                    <button onClick={toggleMobileMenu} aria-label="Toggle menu" className="text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-600 p-2">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path></svg>
+                    </button>
+                </div>
+            </div>
+            <nav className={`bg-white border-t border-gray-200 md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
+                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    {navLinks}
+                </div>
+                <div className="pt-4 pb-3 border-t border-gray-200">
+                    <div className="px-5">
+                        {isAuthenticated && user ? (
+                            <div className="space-y-1">
+                                <div className="flex items-center space-x-3 mb-3">
+                                    <div>
+                                        <div className="text-base font-medium text-gray-800">{user.name}</div>
+                                        <div className="text-sm font-medium text-gray-500">{user.email}</div>
+                                    </div>
+                                </div>
+                                <Link to="/profile" onClick={closeMobileMenu} className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Profil Saya</Link>
+                                <Link to="/pesanan" onClick={closeMobileMenu} className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Pesanan & Riwayat</Link>
+                                <button onClick={handleLogout} className="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Logout</button>
+                            </div>
+                        ) : (
+                            <Link to="/login" onClick={closeMobileMenu} className="block w-full text-center bg-green-500 text-white px-5 py-2 rounded-full hover:bg-green-600 transition-colors duration-300 font-semibold">
+                                Login
+                            </Link>
+                        )}
+                    </div>
+                </div>
+            </nav>
+        </header>
+    );
 };
 
 export default Header;
